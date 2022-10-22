@@ -34,3 +34,4 @@ public class DemoApplication implements CommandLineRunner {
 		}
 	}
 }
+//กุมา

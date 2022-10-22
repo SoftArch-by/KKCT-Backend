@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Update.Update;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import Test.test;
@@ -31,7 +32,7 @@ public class DemoApplication implements CommandLineRunner {
 			userRepository.save(new User("NotOat","ButGod"));
 		}
 
-		test.test();
+		Update.update();
 		// userRepository.save(new User("Ton","GuMa"));
 
 

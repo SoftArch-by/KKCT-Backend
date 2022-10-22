@@ -32,6 +32,8 @@ public class DemoApplication implements CommandLineRunner {
 		for (User user : userRepository.findAll()){
 			System.out.println(user);
 		}
+
+		//TEST Commit
 	}
 }
 //กุมา

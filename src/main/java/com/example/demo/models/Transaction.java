@@ -1,0 +1,115 @@
+package com.example.demo.models;
+
+import java.sql.Date;
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.Id;
+import  org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+@Document
+public class Transaction {
+    @Id
+    private String id;
+    @Field
+    private String C_id;
+    @Field
+    private  String EntreprenuerName;
+    @Field
+    private Double TransactionInfo;
+    @Field
+    private Double Unpaid;
+    @Field
+    private LocalDate TransactionDate;
+    @Field
+    private LocalDate DueDate;
+    @Field
+    private String Status;
+
+    public  Transaction(){
+    }
+
+    public Transaction(String C_id, String EntreprenuerName,Double TransactionInfo,LocalDate TransactionDate,LocalDate DueDate) {
+        this.C_id = C_id;
+        this.EntreprenuerName = EntreprenuerName;
+        this.TransactionInfo = TransactionInfo;
+        this.Unpaid = TransactionInfo;
+        this.TransactionDate = TransactionDate;
+        this.DueDate = DueDate;
+        this.Status = "In debt";
+    }
+
+    public String getId() {
+        return id;
+    }
+    
+
+    public String getC_id() {
+        return this.C_id;
+    }
+
+    public void setC_id(String C_id) {
+        this.C_id = C_id;
+    }
+
+    public String getEntreprenuerName() {
+        return this.EntreprenuerName;
+    }
+
+    public void setEntreprenuerName(String EntreprenuerName) {
+        this.EntreprenuerName = EntreprenuerName;
+    }
+
+    public Double getTransactionInfo() {
+        return this.TransactionInfo;
+    }
+
+    public void setTransactionInfo(Double TransactionInfo) {
+        this.TransactionInfo = TransactionInfo;
+    }
+
+    public Double getUnpaid() {
+        return this.Unpaid;
+    }
+
+    public void setUnpaid(Double Unpaid) {
+        this.Unpaid = Unpaid;
+    }
+
+    public LocalDate getTransactionDate() {
+        return this.TransactionDate;
+    }
+
+    public void setTransactionDate(LocalDate TransactionDate) {
+        this.TransactionDate = TransactionDate;
+    }
+
+    public LocalDate getDueDate() {
+        return this.DueDate;
+    }
+
+    public void setDueDate(LocalDate DueDate) {
+        this.DueDate = DueDate;
+    }
+
+    public String getStatus() {
+        return this.Status;
+    }
+
+    public void setStatus(String Status) {
+        this.Status = Status;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", C_id='" + getC_id() + "'" +
+            ", EntreprenuerName='" + getEntreprenuerName() + "'" +
+            ", TransactionInfo='" + getTransactionInfo() + "'" +
+            ", Unpaid='" + getUnpaid() + "'" +
+            ", TransactionDate='" + getTransactionDate() + "'" +
+            ", DueDate='" + getDueDate() + "'" +
+            ", Status='" + getStatus() + "'" +
+            "}";
+    }
+}

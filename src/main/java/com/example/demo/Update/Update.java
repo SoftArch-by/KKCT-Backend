@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 import com.example.demo.models.Transaction;
 import com.example.demo.repositories.TransactionRepository;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 @RestController
 public class Update {
     private final TransactionRepository transactionRepository;
@@ -46,5 +49,16 @@ public class Update {
     @GetMapping("/getTransaction/{TransactionId}")
     Transaction findtransection(@PathVariable final String TransactionId){
         return transactionRepository.findById(TransactionId).orElseGet(null);
-    } 
+    }
+
+    
+    @PutMapping("/update")
+    Transaction updateTransaction(@RequestBody updateRequest req){
+        Transaction transaction = transactionRepository.findById(req.getID()).get();
+        transaction.setUnpaid(transaction.getUnpaid() - req.getPaid());
+        
+        transactionRepository.save(transaction);
+        return transaction;
+    }
+
 }

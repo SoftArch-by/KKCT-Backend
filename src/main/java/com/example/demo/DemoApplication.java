@@ -44,4 +44,3 @@ public class DemoApplication implements CommandLineRunner {
 		//TEST Commit 2
 	}
 }
-//กุมา

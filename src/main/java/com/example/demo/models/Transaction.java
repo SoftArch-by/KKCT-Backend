@@ -25,8 +25,8 @@ public class Transaction {
     @Field
     private String Status;
 
-    public  Transaction(){
-    }
+    // public  Transaction(){
+    // }
 
     public Transaction(String C_id, String EntreprenuerName,Double TransactionInfo,LocalDate TransactionDate,LocalDate DueDate) {
         this.C_id = C_id;

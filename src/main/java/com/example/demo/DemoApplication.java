@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoApplication implements CommandLineRunner {
 
 	private final UserRepository userRepository;
-	private final TransactionRepository transactionRepository;
 	@Autowired
-	public DemoApplication(UserRepository userRepository,TransactionRepository transactionRepository){
+	public DemoApplication(UserRepository userRepository){
 		this.userRepository = userRepository;
-		this.transactionRepository = transactionRepository;
 	}
 
 	
@@ -40,9 +38,6 @@ public class DemoApplication implements CommandLineRunner {
 		if(userRepository.findAll().isEmpty()){
 			userRepository.save(new User("Oat","LNWza007"));
 			userRepository.save(new User("NotOat","ButGod"));
-		}
-		if(transactionRepository.findAll().isEmpty()){
-			transactionRepository.save(new Transaction("1", "KKCT",100.0,LocalDate.now(),LocalDate.now()));
 		}
 
 		Update.update();

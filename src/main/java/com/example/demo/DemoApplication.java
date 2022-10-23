@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.Update.Update;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
+import Test.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -29,8 +31,15 @@ public class DemoApplication implements CommandLineRunner {
 			userRepository.save(new User("Oat","LNWza007"));
 			userRepository.save(new User("NotOat","ButGod"));
 		}
+
+		Update.update();
+		// userRepository.save(new User("Ton","GuMa"));
+
+
 		for (User user : userRepository.findAll()){
 			System.out.println(user);
 		}
+
+		//TEST Commit 2
 	}
 }

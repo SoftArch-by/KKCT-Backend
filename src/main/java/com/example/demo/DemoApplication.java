@@ -1,27 +1,36 @@
 package com.example.demo;
 
+import com.example.demo.Update.Update;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
-import Test.test;
+import com.example.demo.models.Transaction;
+import com.example.demo.repositories.TransactionRepository;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
+@RestController
 public class DemoApplication implements CommandLineRunner {
 
 	private final UserRepository userRepository;
-
 	@Autowired
 	public DemoApplication(UserRepository userRepository){
 		this.userRepository = userRepository;
 	}
 
+	
 	public static void main(String... args) throws Exception{
 		SpringApplication.run(DemoApplication.class, args);
 	}
+
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -31,14 +40,13 @@ public class DemoApplication implements CommandLineRunner {
 			userRepository.save(new User("NotOat","ButGod"));
 		}
 
-		test.test();
+		Update.update();
 		// userRepository.save(new User("Ton","GuMa"));
-
 
 		for (User user : userRepository.findAll()){
 			System.out.println(user);
 		}
-
+		
 		//TEST Commit 2
 	}
 }

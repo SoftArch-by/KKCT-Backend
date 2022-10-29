@@ -2,8 +2,8 @@ package com.example.demo.Update;
 
 public class updateRequest {
     private String ID;
-    private int paid;
-    updateRequest(String ID,int paid){
+    private Double paid;
+    updateRequest(String ID,Double paid){
         this.ID =ID;
         this.paid = paid;
     }
@@ -16,11 +16,11 @@ public class updateRequest {
         this.ID = ID;
     }
 
-    public int getPaid() {
+    public Double getPaid() {
         return this.paid;
     }
 
-    public void setPaid(int paid) {
+    public void setPaid(Double paid) {
         this.paid = paid;
     }
     

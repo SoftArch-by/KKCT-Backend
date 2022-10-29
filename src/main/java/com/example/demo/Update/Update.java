@@ -58,12 +58,13 @@ public class Update {
     }
 
     
-    @PutMapping("/update")
+    @PostMapping("/update")
     Transaction updateTransaction(@RequestBody updateRequest req){
         Transaction transaction = transactionRepository.findById(req.getID()).get();
         transaction.setUnpaid(transaction.getUnpaid() - req.getPaid());
-
+        UpdateLog updateLog = new UpdateLog(transaction.getId(), req.getPaid());
         transactionRepository.save(transaction);
+        updateLogRepository.save(updateLog);
         return transaction;
     }
 

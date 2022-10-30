@@ -5,6 +5,8 @@ import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.models.Transaction;
 import com.example.demo.repositories.TransactionRepository;
+import com.example.demo.Enterpreneur.Enterpreneur;
+import com.example.demo.Enterpreneur.RequestEnterpreneur;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -41,6 +43,7 @@ public class DemoApplication implements CommandLineRunner {
 		}
 
 		Update.update();
+		RequestEnterpreneur.search();
 		// userRepository.save(new User("Ton","GuMa"));
 
 		for (User user : userRepository.findAll()){

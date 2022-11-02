@@ -15,13 +15,13 @@ public class RequestEnterprenuer {
     @Field
     private String EntreprenuerName;
     @Field
-    private String Request_C_id;
+    private String Request_customerId;
     @Field
     private LocalDate requestDate;
 
-    public RequestEnterprenuer(String Request_C_id,String EntreprenuerName,LocalDate requestDate){
+    public RequestEnterprenuer(String Request_customerId,String EntreprenuerName,LocalDate requestDate){
         this.EntreprenuerName = EntreprenuerName;
-        this.Request_C_id = Request_C_id;
+        this.Request_customerId = Request_customerId;
         this.requestDate = requestDate;
     }
 
@@ -49,12 +49,12 @@ public class RequestEnterprenuer {
         EntreprenuerName = entreprenuerName;
     }
 
-    public String getRequest_C_id() {
-        return Request_C_id;
+    public String getRequest_customerId() {
+        return Request_customerId;
     }
 
-    public void setRequest_C_id(String request_C_id) {
-        Request_C_id = request_C_id;
+    public void setRequest_customerId(String request_customerId) {
+        Request_customerId = request_customerId;
     } 
 
     public LocalDate getRequestDate() {
@@ -68,7 +68,7 @@ public class RequestEnterprenuer {
     @Override
     public String toString() {
         return "{"+ "id = " + getId() + "EmailEntreprenuer" + getEmailEntrepreuer() + 
-        "EtreprenuerName = " + getEntreprenuerName() + "Request_C_id" + getRequest_C_id() + 
+        "EtreprenuerName = " + getEntreprenuerName() + "Request_customerId" + getRequest_customerId() + 
         "RequestDate = "  + getRequestDate()+"}";
     }
 

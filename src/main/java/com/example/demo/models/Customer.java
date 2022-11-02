@@ -1,16 +1,18 @@
 package com.example.demo.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+@Document(collection = "customers")
 public class Customer {
     @Id
     private String id;
-    @Field
+    @Field("email")
     private String email;
-    @Field
+    @Field("password")
     private String password;
-    @Field
+    @Field("citizenID")
     private String citizenID;
 
     public Customer(String id, String email, String password, String citizenID) {

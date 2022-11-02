@@ -14,7 +14,7 @@ public class Transaction {
     @Id
     private String id;
     @Field
-    private String CustomerID;
+    private String customerID;
     @Field
     private  String EntreprenuerName;
     @Field
@@ -30,9 +30,9 @@ public class Transaction {
 
     // public  Transaction(){
     // }
-
-    public Transaction(String CustomerID, String EntreprenuerName,Double TransactionInfo,LocalDate TransactionDate,LocalDate DueDate) {
-        this.CustomerID = CustomerID;
+        
+    public Transaction(String customerID, String EntreprenuerName,Double TransactionInfo,LocalDate TransactionDate,LocalDate DueDate) {
+        this.customerID = customerID;
         this.EntreprenuerName = EntreprenuerName;
         this.TransactionInfo = TransactionInfo;
         this.Unpaid = TransactionInfo;
@@ -46,12 +46,12 @@ public class Transaction {
     }
     
 
-    public String getCustomerID() {
-        return this.CustomerID;
+    public String getcustomerID() {
+        return this.customerID;
     }
 
-    public void setCustomerID(String CustomerID) {
-        this.CustomerID = CustomerID;
+    public void setcustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
     public String getEntreprenuerName() {
@@ -106,7 +106,7 @@ public class Transaction {
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", CustomerID='" + getCustomerID() + "'" +
+            ", customerID='" + getcustomerID() + "'" +
             ", EntreprenuerName='" + getEntreprenuerName() + "'" +
             ", TransactionInfo='" + getTransactionInfo() + "'" +
             ", Unpaid='" + getUnpaid() + "'" +
@@ -119,4 +119,5 @@ public class Transaction {
     public Transaction orElseGet(Object object) {
         return null;
     }
+
 }

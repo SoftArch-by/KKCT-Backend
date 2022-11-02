@@ -13,16 +13,21 @@ import org.springframework.web.bind.annotation.PatchMapping;
 
 import com.example.demo.models.Transaction;
 import com.example.demo.repositories.TransactionRepository;
+import com.example.demo.models.UpdateLog;
+import com.example.demo.repositories.UpdateLogRepository;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @RestController
 public class Update {
     private final TransactionRepository transactionRepository;
+    private final UpdateLogRepository updateLogRepository;
 
     @Autowired
-	public Update(TransactionRepository transactionRepository){
+	public Update(TransactionRepository transactionRepository,UpdateLogRepository updateLogRepository){
 		this.transactionRepository = transactionRepository;
+        this.updateLogRepository = updateLogRepository;
 	}
+    @Autowired
     public static void update(){
         System.out.println("from update");
     }
@@ -46,19 +51,26 @@ public class Update {
     Transaction dummyTransaction(@RequestBody Transaction transaction){
         return transactionRepository.save(transaction);
     }
+    
     @GetMapping("/getTransaction/{TransactionId}")
     Transaction findtransection(@PathVariable final String TransactionId){
         return transactionRepository.findById(TransactionId).orElseGet(null);
     }
 
     
-    @PutMapping("/update")
+    @PostMapping("/update")
     Transaction updateTransaction(@RequestBody updateRequest req){
         Transaction transaction = transactionRepository.findById(req.getID()).get();
         transaction.setUnpaid(transaction.getUnpaid() - req.getPaid());
-        
+        UpdateLog updateLog = new UpdateLog(transaction.getId(), req.getPaid());
         transactionRepository.save(transaction);
+        updateLogRepository.save(updateLog);
         return transaction;
+    }
+
+    @PostMapping("/testUpdateLog")
+    UpdateLog test(@RequestBody UpdateLog updateLog){
+        return updateLogRepository.save(updateLog);
     }
 
 }

@@ -12,5 +12,4 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
     List <Transaction> findByCustomerID(String CustomerID);
 
 
-
 }

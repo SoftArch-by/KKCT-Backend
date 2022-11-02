@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Enterpreneur.EnterpreneurController;
 import com.example.demo.Update.Update;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
@@ -42,6 +43,7 @@ public class DemoApplication implements CommandLineRunner {
 		}
 
 		Update.update();
+		EnterpreneurController.search();
 		// userRepository.save(new User("Ton","GuMa"));
 
 		for (User user : userRepository.findAll()){

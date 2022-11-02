@@ -2,16 +2,19 @@ package com.example.demo.models;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import  org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.example.demo.repositories.TransactionRepository;
 @Document
 public class Transaction {
     @Id
     private String id;
     @Field
-    private String C_id;
+    private String customerID;
     @Field
     private  String EntreprenuerName;
     @Field
@@ -27,9 +30,9 @@ public class Transaction {
 
     // public  Transaction(){
     // }
-
-    public Transaction(String C_id, String EntreprenuerName,Double TransactionInfo,LocalDate TransactionDate,LocalDate DueDate) {
-        this.C_id = C_id;
+        
+    public Transaction(String customerID, String EntreprenuerName,Double TransactionInfo,LocalDate TransactionDate,LocalDate DueDate) {
+        this.customerID = customerID;
         this.EntreprenuerName = EntreprenuerName;
         this.TransactionInfo = TransactionInfo;
         this.Unpaid = TransactionInfo;
@@ -43,12 +46,12 @@ public class Transaction {
     }
     
 
-    public String getC_id() {
-        return this.C_id;
+    public String getcustomerID() {
+        return this.customerID;
     }
 
-    public void setC_id(String C_id) {
-        this.C_id = C_id;
+    public void setcustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
     public String getEntreprenuerName() {
@@ -103,7 +106,7 @@ public class Transaction {
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", C_id='" + getC_id() + "'" +
+            ", customerID='" + getcustomerID() + "'" +
             ", EntreprenuerName='" + getEntreprenuerName() + "'" +
             ", TransactionInfo='" + getTransactionInfo() + "'" +
             ", Unpaid='" + getUnpaid() + "'" +
@@ -112,4 +115,9 @@ public class Transaction {
             ", Status='" + getStatus() + "'" +
             "}";
     }
+
+    public Transaction orElseGet(Object object) {
+        return null;
+    }
+
 }

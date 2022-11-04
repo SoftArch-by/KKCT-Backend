@@ -1,5 +1,6 @@
 package com.example.demo.jwt;
 
+
 import org.springframework.beans.factory.annotation.Value;
 
 public class JwtHelper {
@@ -9,4 +10,5 @@ public class JwtHelper {
     private int accessTokenExpirationMs;
     @Value("")
     private int refreshTokenExpirationMs;
+
 }

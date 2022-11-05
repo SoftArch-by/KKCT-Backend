@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PatchMapping;
 
 import com.example.demo.models.Customer;
+import com.example.demo.models.Entrepreneur;
 import com.example.demo.models.Transaction;
 import com.example.demo.repositories.CustomerRepository;
 import com.example.demo.repositories.EntrepreneurRepository;
@@ -59,6 +60,17 @@ public class Update {
     @PostMapping("/dummyTransaction")
     Transaction dummyTransaction(@RequestBody Transaction transaction){
         return transactionRepository.save(transaction);
+    }
+    @PostMapping("/dummyEntrepreneur")
+    Entrepreneur dummyEntrepreneur(@RequestBody Entrepreneur e){
+        return entrepreneurRepository.save(e);
+    }
+    @PostMapping("/createTransaction")
+    Transaction createTransaction(@RequestBody createTransaction ct){
+        String customerID = customerRepository.findCustomerBycitizenID(ct.getCitizen_id()).getId();
+        String entrepreneurID = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName()).getId();
+        Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());
+        return transactionRepository.save(t);
     }
     /*ลองหา data จาก citizeniD */
     @GetMapping("/CustomerID/findBycitizenID")

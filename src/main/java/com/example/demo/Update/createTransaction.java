@@ -2,13 +2,13 @@ package com.example.demo.Update;
 
 import java.sql.Date;
 
-public class createTransection {
+public class createTransaction {
     private String citizen_id;
     private String email;
     private String OrganizationName ;
     private Double Money;
     private Date DueDate;
-    createTransection (
+    createTransaction (
         String citizen_id,
         String email,
         String OrganizationName ,

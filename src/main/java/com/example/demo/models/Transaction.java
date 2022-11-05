@@ -1,11 +1,13 @@
 package com.example.demo.models;
 
-import java.sql.Date;
+import java.util.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import  org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.example.demo.repositories.TransactionRepository;
@@ -22,23 +24,20 @@ public class Transaction {
     @Field
     private Double Unpaid;
     @Field
-    private LocalDate TransactionDate;
+    private Date TransactionDate;
     @Field
-    private LocalDate DueDate;
-    @Field
-    private String Status;
+    private Date DueDate;
 
     // public  Transaction(){
     // }
         
-    public Transaction(String customerID, String Entreprenuer_ID,Double TransactionInfo,LocalDate TransactionDate,LocalDate DueDate) {
+    public Transaction(String customerID, String Entreprenuer_ID,Double TransactionInfo,Date DueDate) {
         this.customerID = customerID;
         this.Entreprenuer_ID = Entreprenuer_ID;
         this.TransactionInfo = TransactionInfo;
         this.Unpaid = TransactionInfo;
-        this.TransactionDate = TransactionDate;
+        this.TransactionDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()); 
         this.DueDate = DueDate;
-        this.Status = "In debt";
     }
 
     public String getId() {
@@ -78,28 +77,20 @@ public class Transaction {
         this.Unpaid = Unpaid;
     }
 
-    public LocalDate getTransactionDate() {
+    public Date getTransactionDate() {
         return this.TransactionDate;
     }
 
-    public void setTransactionDate(LocalDate TransactionDate) {
+    public void setTransactionDate(Date TransactionDate) {
         this.TransactionDate = TransactionDate;
     }
 
-    public LocalDate getDueDate() {
+    public Date getDueDate() {
         return this.DueDate;
     }
 
-    public void setDueDate(LocalDate DueDate) {
+    public void setDueDate(Date DueDate) {
         this.DueDate = DueDate;
-    }
-
-    public String getStatus() {
-        return this.Status;
-    }
-
-    public void setStatus(String Status) {
-        this.Status = Status;
     }
 
     @Override
@@ -112,7 +103,6 @@ public class Transaction {
             ", Unpaid='" + getUnpaid() + "'" +
             ", TransactionDate='" + getTransactionDate() + "'" +
             ", DueDate='" + getDueDate() + "'" +
-            ", Status='" + getStatus() + "'" +
             "}";
     }
 

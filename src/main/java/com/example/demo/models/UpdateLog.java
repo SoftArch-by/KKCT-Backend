@@ -1,7 +1,8 @@
 package com.example.demo.models;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.springframework.data.annotation.Id;
 import  org.springframework.data.mongodb.core.mapping.Document;
@@ -16,13 +17,13 @@ public class UpdateLog {
     @Field
     private Double paid;
     @Field
-    private LocalDate Update_Date;
+    private Date Update_Date;
 
     
     public UpdateLog(String T_id, Double paid) {
         this.T_id = T_id;
         this.paid = paid;
-        this.Update_Date = LocalDate.now();
+        this.Update_Date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()); 
     }
 
     public String getId() {
@@ -49,11 +50,11 @@ public class UpdateLog {
         this.paid = paid;
     }
 
-    public LocalDate getUpdate_Date() {
+    public Date getUpdate_Date() {
         return this.Update_Date;
     }
 
-    public void setUpdate_Date(LocalDate Update_Date) {
+    public void setUpdate_Date(Date Update_Date) {
         this.Update_Date = Update_Date;
     }
 

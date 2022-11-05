@@ -9,12 +9,12 @@ public class Entrepreneur {
     @Field
     private String email;
     @Field
-    private String oranganizationName;
+    private String organizationName;
 
-    public Entrepreneur(String id, String email, String oranganizationName) {
+    public Entrepreneur(String id, String email, String organizationName) {
         this.id = id;
         this.email = email;
-        this.oranganizationName = oranganizationName;
+        this.organizationName = organizationName;
     }
 
     public String getId() {
@@ -25,8 +25,8 @@ public class Entrepreneur {
         return email;
     }
 
-    public String getOrangnizationName() {
-        return oranganizationName;
+    public String getOrganizationName() {
+        return organizationName;
     }
 
     public void setId(String id) {
@@ -37,12 +37,12 @@ public class Entrepreneur {
         this.email = email;
     }
 
-    public void setOrangnizationName(String orangnizationName) {
-        this.oranganizationName = orangnizationName;
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
     @Override
     public String toString() {
-        return String.format("Entrepreneur[id='%s', email='%s', oranganizationName='%s']",id,email,oranganizationName);
+        return String.format("Entrepreneur[id='%s', email='%s', organizationName='%s']",id,email,organizationName);
     }
 }

@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PatchMapping;
 
+import com.example.demo.models.Customer;
 import com.example.demo.models.Transaction;
+import com.example.demo.repositories.CustomerRepository;
+import com.example.demo.repositories.EntrepreneurRepository;
 import com.example.demo.repositories.TransactionRepository;
 import com.example.demo.models.UpdateLog;
 import com.example.demo.repositories.UpdateLogRepository;
@@ -21,12 +25,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 public class Update {
     private final TransactionRepository transactionRepository;
     private final UpdateLogRepository updateLogRepository;
+    private final CustomerRepository customerRepository;
+    private final EntrepreneurRepository entrepreneurRepository;
 
     @Autowired
-	public Update(TransactionRepository transactionRepository,UpdateLogRepository updateLogRepository){
+	public Update(TransactionRepository transactionRepository,UpdateLogRepository updateLogRepository,CustomerRepository customerRepository,EntrepreneurRepository entrepreneurRepository){
 		this.transactionRepository = transactionRepository;
         this.updateLogRepository = updateLogRepository;
+        this.customerRepository = customerRepository;
+        this.entrepreneurRepository = entrepreneurRepository;
 	}
+    
     @Autowired
     public static void update(){
         System.out.println("from update");
@@ -51,17 +60,20 @@ public class Update {
     Transaction dummyTransaction(@RequestBody Transaction transaction){
         return transactionRepository.save(transaction);
     }
-    
+    /*ลองหา data จาก citizeniD */
+    @GetMapping("/CustomerID/findBycitizenID")
+    public Customer getCustomerID(@RequestParam String citizenID){
+        return customerRepository.findCustomerBycitizenID(citizenID);
+    }
     @GetMapping("/getTransaction/{TransactionId}")
     Transaction findtransection(@PathVariable final String TransactionId){
         return transactionRepository.findById(TransactionId).orElseGet(null);
     }
-
     
     @PostMapping("/update")
     Transaction updateTransaction(@RequestBody updateRequest req){
         Transaction transaction = transactionRepository.findById(req.getID()).get();
-        transaction.setUnpaid(transaction.getUnpaid() - req.getPaid());
+        transaction.setUnpaid(transaction.getUnpaid() - req.getPaid()); 
         UpdateLog updateLog = new UpdateLog(transaction.getId(), req.getPaid());
         transactionRepository.save(transaction);
         updateLogRepository.save(updateLog);

@@ -10,6 +10,6 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 public class RefreshToken {
     @Id
     private String id;
-    @DocumentReference
+    @DocumentReference(lazy = true)
     private User owner;
 }

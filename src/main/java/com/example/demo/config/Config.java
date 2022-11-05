@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 
 @Configuration
 public class Config  extends AbstractMongoClientConfiguration {
-    @Value("")
+    @Value("${spring.data.mongodb.database}")
     private String databaseName;
     @Override
     protected String getDatabaseName() {

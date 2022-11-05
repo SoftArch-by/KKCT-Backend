@@ -27,31 +27,31 @@ public class User implements UserDetails {
     @JsonIgnore
     @NonNull
     private String password;
-    @Field
-    private  String firstName;
-    @Field
-    private String lastName;
+//    @Field
+//    private  String firstName;
+//    @Field
+//    private String lastName;
 
-    public  User(){
-    }
-
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("User[id='%s', firstName='%s', lastName='%s']",id,firstName,lastName);
-    }
+//    public  User(){
+//    }
+//
+//    public User(String firstName, String lastName) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
+//
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return String.format("User[id='%s', firstName='%s', lastName='%s']",id,firstName,lastName);
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -60,12 +60,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override

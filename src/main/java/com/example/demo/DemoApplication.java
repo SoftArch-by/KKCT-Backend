@@ -21,37 +21,37 @@ import com.example.demo.models.UpdateLog;
 import com.example.demo.repositories.UpdateLogRepository;
 @SpringBootApplication
 @EnableMongoRepositories
-@RestController
-public class DemoApplication implements CommandLineRunner {
+//@RestController
+public class DemoApplication{
 
-	private final UserRepository userRepository;
-	@Autowired
-	public DemoApplication(UserRepository userRepository){
-		this.userRepository = userRepository;
-	}
+//	private final UserRepository userRepository;
+//	@Autowired
+//	public DemoApplication(UserRepository userRepository){
+//		this.userRepository = userRepository;
+//	}
 
 	
-	public static void main(String... args) throws Exception{
+	public static void main(String[] args){
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
 
-	@Override
-	public void run(String... args) throws Exception {
+//	@Override
+//	public void run(String... args) throws Exception {
 
-		if(userRepository.findAll().isEmpty()){
-			userRepository.save(new User("Oat","LNWza007"));
-			userRepository.save(new User("NotOat","ButGod"));
-		}
-
-		Update.update();
-		EnterpreneurController.search();
-		// userRepository.save(new User("Ton","GuMa"));
-
-		for (User user : userRepository.findAll()){
-			System.out.println(user);
-		}
+//		if(userRepository.findAll().isEmpty()){
+//			userRepository.save(new User("Oat","LNWza007"));
+//			userRepository.save(new User("NotOat","ButGod"));
+//		}
+//
+//		Update.update();
+//		EnterpreneurController.search();
+//		// userRepository.save(new User("Ton","GuMa"));
+//
+//		for (User user : userRepository.findAll()){
+//			System.out.println(user);
+//		}
 		
 		//TEST Commit 2
-	}
+//	}
 }

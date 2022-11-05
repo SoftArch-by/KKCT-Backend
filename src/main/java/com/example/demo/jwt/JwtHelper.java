@@ -18,10 +18,10 @@ import java.util.Optional;
 public class JwtHelper {
     static final String issuer = "KKTC";
 
-    @Value("#{${accessTokenExpirationMinutes} * 60 * 1000}")
+    @Value("#{5 * 60 * 1000}")
     private int accessTokenExpirationMs;
-    @Value("#{${refreshTokenExpirationDays} * 24 * 60 * 60 * 1000}")
-    private int refreshTokenExpirationMs;
+    @Value("#{5 * 24 * 60 * 60 * 1000}")
+    private long refreshTokenExpirationMs;
 
     private Algorithm accessTokenAlgorithm;
     private Algorithm refreshTokenAlgorithm;

@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.Enterpreneur.EnterpreneurController;
-import com.example.demo.Update.Update;
 import com.example.demo.models.Role;
 import com.example.demo.models.User;
 

@@ -1,24 +1,18 @@
 package com.example.demo.services;
 
+import com.example.demo.models.Role;
 import com.example.demo.models.User;
-import com.example.demo.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserService implements UserDetailsService {
-    @Autowired
-    UserRepository userRepository;
-    @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(("username not found")));
-    }
+import java.util.List;
 
-    public User findById(String id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("user id not found"));
-    }
+public interface UserService {
+    User saveUser(User user);
+
+    Role saveRole(Role role);
+
+    void addRoleToUser(String username, String role);
+
+    User getUser(String username);
+
+    List<User>getUsers();
 }

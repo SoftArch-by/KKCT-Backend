@@ -16,7 +16,7 @@ public class Transaction {
     @Field
     private String customerID;
     @Field
-    private  String EntreprenuerName;
+    private String EntreprenuerName;
     @Field
     private Double TransactionInfo;
     @Field

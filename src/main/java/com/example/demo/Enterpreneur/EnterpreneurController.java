@@ -46,10 +46,6 @@ public class EnterpreneurController {
         return new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(CustomerID),HttpStatus.OK);
     }
 
-    // @GetMapping("/getRequest/Ent")
-    // public ResponseEntity<List<Entrepreneur>> test(@RequestBody RequestLog req){
-    //     return new ResponseEntity<List<Entrepreneur>>(entrepreneurRepository.findRequestEmailAndName(req.getEmailEntrepreuer(), req.getOrganizationName()),HttpStatus.OK);
-    // }
 
     @PostMapping("/Request")
     public ResponseEntity<List<Transaction>> Request(@RequestBody RequestLog req){

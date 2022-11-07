@@ -41,6 +41,10 @@ public class Entrepreneur {
         this.organizationName = organizationName;
     }
 
+    public Entrepreneur orElseGet(Object object) {
+        return null;
+    }
+
     @Override
     public String toString() {
         return String.format("Entrepreneur[id='%s', email='%s', organizationName='%s']",id,email,organizationName);

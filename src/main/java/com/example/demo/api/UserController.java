@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/user/save")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        return ResponseEntity.created(uri).body(userService.addUser(user));
     }
 
     @PostMapping("/role/save")
@@ -55,7 +55,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupForm signupForm) {
-        userService.saveUser(new User(null, signupForm.getName(), signupForm.getUsername(), signupForm.getPassword(), new ArrayList<>()));
+        userService.addUser(new User(null, signupForm.getName(), signupForm.getUsername(), signupForm.getPassword(), new ArrayList<>()));
         return ResponseEntity.ok().build();
     }
 

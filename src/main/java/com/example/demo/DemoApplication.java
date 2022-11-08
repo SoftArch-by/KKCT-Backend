@@ -1,58 +1,40 @@
 package com.example.demo;
 
-import com.example.demo.Enterpreneur.EnterpreneurController;
-import com.example.demo.Update.Update;
+import com.example.demo.models.Role;
 import com.example.demo.models.User;
-import com.example.demo.repositories.UserRepository;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.models.Transaction;
-import com.example.demo.repositories.TransactionRepository;
-import com.example.demo.models.UpdateLog;
-import com.example.demo.repositories.UpdateLogRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @SpringBootApplication
 @EnableMongoRepositories
-//@RestController
 public class DemoApplication{
 
-//	private final UserRepository userRepository;
-//	@Autowired
-//	public DemoApplication(UserRepository userRepository){
-//		this.userRepository = userRepository;
-//	}
-
-	
 	public static void main(String[] args){
 
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-//	@Override
-//	public void run(String... args) throws Exception {
-
-//		if(userRepository.findAll().isEmpty()){
-//			userRepository.save(new User("Oat","LNWza007"));
-//			userRepository.save(new User("NotOat","ButGod"));
-//		}
+//	@Bean
+//	CommandLineRunner run(UserService userService) {
+//		return args -> {
+//			userService.saveRole(new Role(null, "ROLE_NAME"));
 //
-//		Update.update();
-//		EnterpreneurController.search();
-//		// userRepository.save(new User("Ton","GuMa"));
-//
-//		for (User user : userRepository.findAll()){
-//			System.out.println(user);
-//		}
-		
-		//TEST Commit 2
+//			userService.saveUser(new User(null, "Jirakan", "copter", "1234", new ArrayList<>()));
+//			userService.getUsers();
+//		};
 //	}
 }

@@ -69,8 +69,10 @@ public class Update {
     }
 
     @PostMapping("/testUpdateLog")
-    UpdateLog test(@RequestBody UpdateLog updateLog){
+    UpdateLog test(@RequestBody UpdateLog updateLog)
+    {
         return updateLogRepository.save(updateLog);
+
     }
 
 }

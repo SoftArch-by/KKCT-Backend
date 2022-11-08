@@ -1,9 +1,7 @@
 package com.example.demo.api;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.demo.jwt.JWTHelper;
 import com.example.demo.models.Role;
 import com.example.demo.models.User;
 import com.example.demo.services.UserService;
@@ -18,9 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.sql.Date;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -31,8 +27,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final int accessTokenExpirationMinutes = 5;
-    private final int accessTokenExpirationMs = accessTokenExpirationMinutes * 60 * 1000;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
@@ -48,7 +42,7 @@ public class UserController {
     @PostMapping("/role/save")
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
-        return ResponseEntity.ok().body(userService.saveRole(role));
+        return ResponseEntity.created(uri).body(userService.saveRole(role));
     }
 
     @PostMapping("/role/addtouser")
@@ -63,17 +57,11 @@ public class UserController {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             try {
                 String refresh_token = authHeader.replace("Bearer ", "");
-                Algorithm accessTokenAlgorithm = Algorithm.HMAC256("12345".getBytes());
-                JWTVerifier verifier = JWT.require(accessTokenAlgorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);
-                String username = decodedJWT.getSubject();
+                DecodedJWT validRefreshToken = JWTHelper.validateToken(refresh_token);
+                String username = validRefreshToken.getSubject();
                 User user = userService.getUser(username);
-                String access_token = JWT.create()
-                        .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-                        .sign(accessTokenAlgorithm);
+                String access_token = JWTHelper.generateNewAccessToken(user);
+
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
                 tokens.put("refresh_token", refresh_token);

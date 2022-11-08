@@ -34,9 +34,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.info("User {} found in the database", username);
         }
         Collection<SimpleGrantedAuthority> aurhoities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            aurhoities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        user.getRoles().forEach(role ->
+                aurhoities.add(new SimpleGrantedAuthority(role.getName())));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), aurhoities);
     }
 
@@ -44,6 +43,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User saveUser(User user) {
         log.info("Saving new user {} to the database", user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.getRoles().add(new Role(null, "USER"));
         return userRepository.save(user);
     }
 

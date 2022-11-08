@@ -3,6 +3,7 @@ package com.example.demo.api;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.jwt.JWTHelper;
 import com.example.demo.models.Role;
+import com.example.demo.models.SignupForm;
 import com.example.demo.models.User;
 import com.example.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -48,6 +50,12 @@ public class UserController {
     @PostMapping("/role/addtouser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserFrom form) {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@Valid @RequestBody SignupForm signupForm) {
+        userService.saveUser(new User(null, signupForm.getName(), signupForm.getUsername(), signupForm.getPassword(), new ArrayList<>()));
         return ResponseEntity.ok().build();
     }
 

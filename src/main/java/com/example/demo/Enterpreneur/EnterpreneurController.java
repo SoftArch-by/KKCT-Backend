@@ -2,6 +2,7 @@ package com.example.demo.Enterpreneur;
 
 import java.io.Console;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,20 +50,27 @@ public class EnterpreneurController {
 
     @PostMapping("/Request")
     public ResponseEntity<List<Transaction>> Request(@RequestBody RequestLog req){
-        Entrepreneur enterp = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEmailEntrepreuer(), req.getOrganizationName());
-        Customer cust = customerRepository.findCustomerBycitizenID(req.getRequest_customerId());
+        Entrepreneur enterp = entrepreneurRepository.findById(req.getEnterpreneurId()).orElseGet(null);
+        Customer cust = customerRepository.findById(req.getRequest_customerId()).orElseGet(null);
 
         System.out.println(enterp);
+        System.out.println(cust);
         if (enterp!=null && cust!=null){
             ResponseEntity<List<Transaction>> findCid = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(req.getRequest_customerId()),HttpStatus.OK);
-            RequestLog requestLog = new RequestLog(req.getEmailEntrepreuer(), req.getOrganizationName(), req.getRequest_customerId());
+            RequestLog requestLog = new RequestLog(req.getEnterpreneurId(), req.getRequest_customerId());
             repositoryRepository.save(requestLog);
 
             return findCid;
         }
         else{
-            return null;
+               return null;
         }
+
+        // test case
+        // {
+        //     "enterpreneurId": "6366aace59f77a088ba81546",
+        //     "Request_customerId": "6362860320fad745b2054961"
+        // }
             
     }
     

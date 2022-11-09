@@ -13,17 +13,14 @@ public class RequestLog {
     @Id
     private String id;
     @Field
-    private String emailEntrepreuer;
-    @Field
-    private String organizationName;
+    private String enterpreneurId;
     @Field
     private String Request_customerId;
     @Field
     private Date requestDate;
 
-    public RequestLog(String emailEntrepreuer,String organizationName,String Request_customerId){
-        this.emailEntrepreuer = emailEntrepreuer;
-        this.organizationName = organizationName;
+    public RequestLog(String enterpreneurId,String Request_customerId){
+        this.enterpreneurId = enterpreneurId;
         this.Request_customerId = Request_customerId;
         this.requestDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
@@ -36,22 +33,14 @@ public class RequestLog {
         this.id = id;
     }
 
-    public String getEmailEntrepreuer() {
-        return emailEntrepreuer;
+    public String getEnterpreneurId() {
+        return enterpreneurId;
     }
 
-    public void setEmailEntrepreuer(String emailEntrepreuer) {
-        this.emailEntrepreuer = emailEntrepreuer;
+    public void setEnterpreneurId(String enterpreneurId) {
+        this.enterpreneurId = enterpreneurId;
     }
-
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
-    
+     
     public String getRequest_customerId() {
         return Request_customerId;
     }

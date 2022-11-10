@@ -1,18 +1,18 @@
 package com.example.demo.services;
 
+import com.example.demo.models.Customer;
 import com.example.demo.models.Role;
-import com.example.demo.models.User;
 
 import java.util.List;
 
 public interface UserService {
-    User saveUser(User user);
+    Customer saveUser(Customer customer);
 
     Role saveRole(Role role);
 
-    void addRoleToUser(String username, String role);
+    void addRoleToUser(String email, String role);
 
-    User getUser(String username);
+    Customer getUser(String email);
 
-    List<User>getUsers();
+    List<Customer>getUsers();
 }

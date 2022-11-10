@@ -1,12 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.models.Role;
-import com.example.demo.models.User;
-
-import java.util.ArrayList;
-
-import com.example.demo.services.UserService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +25,7 @@ public class DemoApplication{
 //		return args -> {
 //			userService.saveRole(new Role(null, "ROLE_NAME"));
 //
-//			userService.saveUser(new User(null, "Jirakan", "copter", "1234", new ArrayList<>()));
+//			userService.saveUser(new Customer(null, "Jirakan", "copter", "1234", new ArrayList<>()));
 //			userService.getUsers();
 //		};
 //	}

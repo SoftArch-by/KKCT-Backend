@@ -12,13 +12,13 @@ import java.util.Collection;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
 
-@Document @Data @NoArgsConstructor @AllArgsConstructor
-public class User {
+@Document(collection = "customers") @Data @NoArgsConstructor @AllArgsConstructor
+public class Customer {
     @Id @GeneratedValue(strategy = AUTO)
     private String id;
-    private String name;
-    private String username;
+    private String email;
     private String password;
+    private String citizenID;
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
 }

@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.demo.models.Customer;
 import com.example.demo.models.Role;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,14 +40,14 @@ public class JWTHelper {
                 .sign(algorithm);
     }
 
-    public static String generateNewAccessToken(com.example.demo.models.User user) {
+    public static String generateNewAccessToken(Customer customer) {
         int accessTokenExpirationMinutes = 5;
         int accessTokenExpirationMs = accessTokenExpirationMinutes * 60 * 1000;
         return JWT.create()
-                .withSubject(user.getUsername())
+                .withSubject(customer.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
                 .withIssuer(issuer)
-                .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .withClaim("roles", customer.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .sign(algorithm);
     }
 

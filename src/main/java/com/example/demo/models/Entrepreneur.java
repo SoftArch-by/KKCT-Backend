@@ -10,6 +10,10 @@ public class Entrepreneur {
     private String email;
     @Field
     private String organizationName;
+    @Field
+    private  String type;
+
+
 
     public Entrepreneur(String id, String email, String organizationName) {
         this.id = id;
@@ -43,6 +47,14 @@ public class Entrepreneur {
 
     public Entrepreneur orElseGet(Object object) {
         return null;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

@@ -53,4 +53,8 @@ public class Customer {
     public void setCitizenID(String citizenID) {
         this.citizenID = citizenID;
     }
+
+    public boolean isEmpty() {
+        return false;
+    }
 }

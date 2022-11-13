@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends MongoRepository<Transaction, String> {
 
-    List<Transaction> findByCustomerID(String CustomerID);
+    List<Transaction> findByCustomerID(String citizenID);
 
 
 }

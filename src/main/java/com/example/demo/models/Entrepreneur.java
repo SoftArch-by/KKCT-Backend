@@ -49,4 +49,8 @@ public class Entrepreneur {
     public String toString() {
         return String.format("Entrepreneur[id='%s', email='%s', organizationName='%s']",id,email,organizationName);
     }
+
+    public boolean isEmpty() {
+        return false;
+    }
 }

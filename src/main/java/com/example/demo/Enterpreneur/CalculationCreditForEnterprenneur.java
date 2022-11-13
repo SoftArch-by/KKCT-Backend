@@ -1,5 +1,6 @@
 package com.example.demo.Enterpreneur;
 
+import com.example.demo.models.Credit;
 import com.example.demo.models.Transaction;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 public class CalculationCreditForEnterprenneur {
 
-    public static String calculationCredit(ResponseEntity<List<Transaction>> transaction){
+    public static Credit calculationCredit(ResponseEntity<List<Transaction>> transaction){
         String customertransaction = null;
         customertransaction = transaction.getBody().toString();
 
@@ -71,15 +72,17 @@ public class CalculationCreditForEnterprenneur {
             else{
                 recommend = "Bad Credit";
             }
+            
 
-            return "{" + 
-            "CreditScore='" + credit + "'" +
-            ",Recommend='" + recommend + "'" +
-            "}";
+            // return "{" + 
+            // "CreditScore='" + credit + "'" +
+            // ",Recommend='" + recommend + "'" +
+            // "}";
+            return new Credit(credit,recommend);
 
         }
         else{
-            return "not have transaction in this customer";
+            return null;
         }
 
     }

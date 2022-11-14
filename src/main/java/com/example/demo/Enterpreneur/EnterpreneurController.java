@@ -29,6 +29,8 @@ public class EnterpreneurController {
     private final RequestsLogRepository repositoryRepository;
     private final CustomerRepository customerRepository;
 
+    //private final EnterpreneurAuthen enterpreneurAuthen = new EnterpreneurAuthen();
+
     @Autowired
     public static void search(){
         System.out.println("from request");

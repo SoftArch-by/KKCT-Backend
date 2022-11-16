@@ -82,15 +82,18 @@ public class Update {
     Transaction findtransection(@PathVariable final String TransactionId){
         return transactionRepository.findById(TransactionId).orElseGet(null);
     }
-    
+    //http://localhost:8093/update
     @PostMapping("/update")
     Transaction updateTransaction(@RequestBody updateRequest req){
         Transaction transaction = transactionRepository.findById(req.getID()).get();
         if (transaction == null){return null;}
-        transaction.setUnpaid(transaction.getUnpaid() - req.getPaid()); 
-        UpdateLog updateLog = new UpdateLog(transaction.getId(), req.getPaid());
-        transactionRepository.save(transaction);
-        updateLogRepository.save(updateLog);
+        if (transaction.getUnpaid() - req.getPaid() < 0){return null;}
+        else{
+            transaction.setUnpaid(transaction.getUnpaid() - req.getPaid()); 
+            UpdateLog updateLog = new UpdateLog(transaction.getId(), req.getPaid());
+            transactionRepository.save(transaction);
+            updateLogRepository.save(updateLog);
+        }
         return transaction;
     }
 

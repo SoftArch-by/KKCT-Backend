@@ -73,4 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info(customerRepository.findAll());
         return customerRepository.findAll();
     }
+
+
+
 }

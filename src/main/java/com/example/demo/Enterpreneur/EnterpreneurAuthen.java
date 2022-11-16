@@ -5,17 +5,14 @@ import com.example.demo.repositories.EntrepreneurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class EnterpreneurAuthen {
-    @Autowired
-    private EntrepreneurRepository entrepreneur;
+    private static EntrepreneurRepository entrepreneur;
 
-    EnterpreneurAuthen (){
-    }
 
-    public void register(Entrepreneur e){
-        Object check = entrepreneur.findEntrepreneurByEmail(e.getEmail());
-        if (check!= null){
-            entrepreneur.save(e);
-        }
+    public static void register(Entrepreneur e){
+        System.out.println(e+"this is");
+        //Object check = entrepreneur.findEntrepreneurByEmail(e.getEmail());
+        entrepreneur.save(e);
+
     }
 
 

@@ -1,8 +1,13 @@
 package com.example.demo.models;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+
+@Getter @Setter
 public class Entrepreneur {
     @Id
     private String id;
@@ -11,54 +16,17 @@ public class Entrepreneur {
     @Field
     private String organizationName;
     @Field
-    private  String type;
+    private String type;
 
-
-
-    public Entrepreneur(String id, String email, String organizationName) {
+    public Entrepreneur(String id, String email, String organizationName, String type) {
         this.id = id;
         this.email = email;
         this.organizationName = organizationName;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
-
-    public Entrepreneur orElseGet(Object object) {
-        return null;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Entrepreneur[id='%s', email='%s', organizationName='%s']",id,email,organizationName);
-    }
+//    @Override
+//    public String toString() {
+//        return String.format("Entrepreneur[id='%s', email='%s', organizationName='%s', type='%s' ]",id,email,organizationName,type);
+//    }
 }

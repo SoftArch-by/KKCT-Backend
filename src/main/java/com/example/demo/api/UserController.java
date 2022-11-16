@@ -56,8 +56,16 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupForm signupForm) {
         userService.saveUser(new Customer(null, signupForm.getEmail(), signupForm.getPassword(), signupForm.getCitizenID(), new ArrayList<>()));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("signup success");
     }
+
+//    @GetMapping("/login")
+//    public  ResponseEntity<?> login(@RequestParam String email,@RequestParam String password){
+//        if(userService.checkLogin(email,password)){
+//            return ResponseEntity.ok("login success");
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
 
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

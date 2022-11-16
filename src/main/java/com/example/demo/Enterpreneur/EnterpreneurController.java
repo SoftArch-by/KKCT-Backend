@@ -93,13 +93,13 @@ public class EnterpreneurController {
     @PostMapping("/RequestCredit")
     public ResponseEntity<RequestCredit> credit(@RequestBody RequestLog req){
         Entrepreneur enterpreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEnterpreneur_Email(),req.getEnterpreneur_Name());
-        Customer customer = customerRepository.findCustomerBycitizenID(req.getRequest_Customer_Cid());
+        Customer customer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
 
         System.out.print("ent"+enterpreneur);
         System.out.print("cust"+customer);
         if (!enterpreneur.isEmpty() && !customer.isEmpty()){
             //serach id customer from citizen id
-            Customer idCustomer = customerRepository.findCustomerBycitizenID(req.getRequest_Customer_Cid());
+            Customer idCustomer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
             //search trasaction from id
             ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
             //calculation credit from transaction

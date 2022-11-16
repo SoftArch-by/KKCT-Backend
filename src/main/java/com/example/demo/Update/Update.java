@@ -2,7 +2,11 @@ package com.example.demo.Update;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.constraints.Null;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,12 +70,14 @@ public class Update {
         return entrepreneurRepository.save(e);
     }
     @PostMapping("/createTransaction")
-    Transaction createTransaction(@RequestBody createTransaction ct){
-        String customerID = customerRepository.findByCitizenID(ct.getCitizen_id()).getId();
-        String entrepreneurID = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName()).getId();
-        if (customerID == null ||entrepreneurID == null) {return null;}
+    public ResponseEntity<Transaction> createTransaction(@RequestBody createTransaction ct){
+        Customer customer = customerRepository.findByCitizenID(ct.getCitizen_id()).orElseGet(null);
+        String customerID = customer.getId();
+        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName()).orElseGet(null);
+        String entrepreneurID = entrepreneur.getId();
+        if (customerID == null ||entrepreneurID == null) {return new ResponseEntity<Transaction>(HttpStatus.NOT_FOUND);}
         Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());
-        return transactionRepository.save(t);
+        return new ResponseEntity<Transaction>(transactionRepository.save(t),HttpStatus.OK);
     }
     /*ลองหา data จาก citizeniD */
     @GetMapping("/CustomerID/findBycitizenID")
@@ -84,17 +90,17 @@ public class Update {
     }
     //http://localhost:8093/update
     @PostMapping("/update")
-    Transaction updateTransaction(@RequestBody updateRequest req){
-        Transaction transaction = transactionRepository.findById(req.getID()).get();
-        if (transaction == null){return null;}
-        if (transaction.getUnpaid() - req.getPaid() < 0){return null;}
+    public ResponseEntity<Transaction> updateTransaction(@RequestBody updateRequest req){
+        Transaction transaction = transactionRepository.findById(req.getID()).get().orElseGet(null);
+        if (transaction == null){return new ResponseEntity<Transaction>(HttpStatus.NOT_FOUND);}
+        if (transaction.getUnpaid() - req.getPaid() < 0){return new ResponseEntity<Transaction>(HttpStatus.CONFLICT);}
         else{
             transaction.setUnpaid(transaction.getUnpaid() - req.getPaid()); 
             UpdateLog updateLog = new UpdateLog(transaction.getId(), req.getPaid());
             transactionRepository.save(transaction);
             updateLogRepository.save(updateLog);
         }
-        return transaction;
+        return new ResponseEntity<Transaction>(transaction,HttpStatus.OK);
     }
 
     @PostMapping("/testUpdateLog")

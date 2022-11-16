@@ -13,15 +13,18 @@ public class RequestLog {
     @Id
     private String id;
     @Field
-    private String enterpreneurId;
+    private String Enterpreneur_Email;
     @Field
-    private String Request_customerId;
+    private String Enterpreneur_Name;
+    @Field
+    private String Request_Customer_Cid;
     @Field
     private Date requestDate;
 
-    public RequestLog(String enterpreneurId,String Request_customerId){
-        this.enterpreneurId = enterpreneurId;
-        this.Request_customerId = Request_customerId;
+    public RequestLog(String Enterpreneur_Email,String Enterpreneur_Name,String Request_Customer_Cid){
+        this.Enterpreneur_Email = Enterpreneur_Email;
+        this.Enterpreneur_Name = Enterpreneur_Name;
+        this.Request_Customer_Cid = Request_Customer_Cid;
         this.requestDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
@@ -33,20 +36,20 @@ public class RequestLog {
         this.id = id;
     }
 
-    public String getEnterpreneurId() {
-        return enterpreneurId;
+    public String getEnterpreneur_Email() {
+        return Enterpreneur_Email;
     }
 
-    public void setEnterpreneurId(String enterpreneurId) {
-        this.enterpreneurId = enterpreneurId;
+    public void setEnterpreneur_Email(String Enterpreneur_Email) {
+        this.Enterpreneur_Email = Enterpreneur_Email;
     }
      
-    public String getRequest_customerId() {
-        return Request_customerId;
+    public String getRequest_Customer_Cid() {
+        return Request_Customer_Cid;
     }
 
-    public void setRequest_customerId(String Request_customerId) {
-        this.Request_customerId = Request_customerId;
+    public void setRequest_Customer_Cid(String Request_Customer_Cid) {
+        this.Request_Customer_Cid = Request_Customer_Cid;
     } 
 
     public Date getRequestDate() {
@@ -55,6 +58,14 @@ public class RequestLog {
 
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
+    }
+
+    public String getEnterpreneur_Name() {
+        return Enterpreneur_Name;
+    }
+
+    public void setEnterpreneur_Name(String enterpreneur_Name) {
+        Enterpreneur_Name = enterpreneur_Name;
     }
     
 }

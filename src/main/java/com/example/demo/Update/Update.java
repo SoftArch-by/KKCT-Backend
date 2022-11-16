@@ -69,6 +69,7 @@ public class Update {
     Transaction createTransaction(@RequestBody createTransaction ct){
         String customerID = customerRepository.findByCitizenID(ct.getCitizen_id()).getId();
         String entrepreneurID = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName()).getId();
+        if (customerID == null ||entrepreneurID == null) {return null;}
         Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());
         return transactionRepository.save(t);
     }
@@ -85,6 +86,7 @@ public class Update {
     @PostMapping("/update")
     Transaction updateTransaction(@RequestBody updateRequest req){
         Transaction transaction = transactionRepository.findById(req.getID()).get();
+        if (transaction == null){return null;}
         transaction.setUnpaid(transaction.getUnpaid() - req.getPaid()); 
         UpdateLog updateLog = new UpdateLog(transaction.getId(), req.getPaid());
         transactionRepository.save(transaction);

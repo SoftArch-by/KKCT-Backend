@@ -67,7 +67,7 @@ public class Update {
     }
     @PostMapping("/createTransaction")
     Transaction createTransaction(@RequestBody createTransaction ct){
-        String customerID = customerRepository.findCustomerBycitizenID(ct.getCitizen_id()).getId();
+        String customerID = customerRepository.findByCitizenID(ct.getCitizen_id()).getId();
         String entrepreneurID = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName()).getId();
         if (customerID == null ||entrepreneurID == null) {return null;}
         Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());
@@ -76,7 +76,7 @@ public class Update {
     /*ลองหา data จาก citizeniD */
     @GetMapping("/CustomerID/findBycitizenID")
     public Customer getCustomerID(@RequestParam String citizenID){
-        return customerRepository.findCustomerBycitizenID(citizenID);
+        return customerRepository.findByCitizenID(citizenID);
     }
     @GetMapping("/getTransaction/{TransactionId}")
     Transaction findtransection(@PathVariable final String TransactionId){

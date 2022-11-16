@@ -4,6 +4,7 @@ import java.io.Console;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,8 @@ public class EnterpreneurController {
     private final RequestsLogRepository repositoryRepository;
     private final CustomerRepository customerRepository;
 
+
+
     @Autowired
     public static void search(){
         System.out.println("from request");
@@ -42,6 +45,13 @@ public class EnterpreneurController {
         this.entrepreneurRepository = entrepreneurRepository;
         this.repositoryRepository = repositoryRepository;
         this.customerRepository = customerRepository;
+    }
+    @PostMapping("/Register")
+    public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
+        System.out.println(form.getType());
+        Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
+        entrepreneurRepository.save(e);
+        return  ResponseEntity.ok("Sign up success");
     }
 
     @GetMapping("/getRequest/CustomerID")

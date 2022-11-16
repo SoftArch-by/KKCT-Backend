@@ -1,20 +1,27 @@
 package com.example.demo.models;
 
+import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import  org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "customers")
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.AUTO;
+
+@Document(collection = "customers") @Data @NoArgsConstructor @AllArgsConstructor
 public class Customer {
-    @Id
+    @Id @GeneratedValue(strategy = AUTO)
     private String id;
-    @Field("email")
     private String email;
-    @Field("password")
     private String password;
-    @Field("citizenID")
     private String citizenID;
-
+    
+    @ManyToMany(fetch = EAGER)
+    private Collection<Role> roles = new ArrayList<>();
     public Customer(String id, String email, String password, String citizenID) {
         this.id = id;
         this.email = email;

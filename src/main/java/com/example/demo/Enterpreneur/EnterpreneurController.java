@@ -32,14 +32,11 @@ public class EnterpreneurController {
     private final RequestsLogRepository repositoryRepository;
     private final CustomerRepository customerRepository;
 
-
-
     @Autowired
     public static void search(){
         System.out.println("from request");
     }
 
-    
     public EnterpreneurController(TransactionRepository transactionRepository,EntrepreneurRepository entrepreneurRepository,RequestsLogRepository repositoryRepository,CustomerRepository customerRepository) {
         this.requestRepository = transactionRepository;
         this.entrepreneurRepository = entrepreneurRepository;
@@ -50,8 +47,11 @@ public class EnterpreneurController {
     public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
         System.out.println(form.getType());
         Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
-        entrepreneurRepository.save(e);
-        return  ResponseEntity.ok("Sign up success");
+        if(entrepreneurRepository.findEntrepreneurByEmail(e.getEmail()).isEmpty()){
+            entrepreneurRepository.save(e);
+            return  ResponseEntity.ok("Sign up success");
+        }
+        return  ResponseEntity.ok("already have account");
     }
 
     @GetMapping("/getRequest/CustomerID")

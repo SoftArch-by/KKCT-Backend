@@ -93,7 +93,7 @@ public class Update {
     //http://localhost:8093/update
     @PostMapping("/update")
     public ResponseEntity<Transaction> updateTransaction(@RequestBody updateRequest req){
-        Transaction transaction = transactionRepository.findById(req.getID()).get().orElseGet(null);
+        Transaction transaction = transactionRepository.findById(req.getID()).get();
         if (transaction == null){return new ResponseEntity<Transaction>(HttpStatus.NOT_FOUND);}
         if (transaction.getUnpaid() - req.getPaid() < 0){return new ResponseEntity<Transaction>(HttpStatus.CONFLICT);}
         else{

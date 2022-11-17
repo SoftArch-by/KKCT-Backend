@@ -13,17 +13,17 @@ public class RequestLog {
     @Id
     private String id;
     @Field
-    private String Enterpreneur_Email;
+    private String Entrepreneur_Email;
     @Field
-    private String Enterpreneur_Name;
+    private String Entrepreneur_Name;
     @Field
     private String Request_Customer_Cid;
     @Field
     private Date requestDate;
 
-    public RequestLog(String Enterpreneur_Email,String Enterpreneur_Name,String Request_Customer_Cid){
-        this.Enterpreneur_Email = Enterpreneur_Email;
-        this.Enterpreneur_Name = Enterpreneur_Name;
+    public RequestLog(String Entrepreneur_Email,String Entrepreneur_Name,String Request_Customer_Cid){
+        this.Entrepreneur_Email = Entrepreneur_Email;
+        this.Entrepreneur_Name = Entrepreneur_Name;
         this.Request_Customer_Cid = Request_Customer_Cid;
         this.requestDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
@@ -36,12 +36,12 @@ public class RequestLog {
         this.id = id;
     }
 
-    public String getEnterpreneur_Email() {
-        return Enterpreneur_Email;
+    public String getEntrepreneur_Email() {
+        return Entrepreneur_Email;
     }
 
-    public void setEnterpreneur_Email(String Enterpreneur_Email) {
-        this.Enterpreneur_Email = Enterpreneur_Email;
+    public void setEntrepreneur_Email(String Entrepreneur_Email) {
+        this.Entrepreneur_Email = Entrepreneur_Email;
     }
      
     public String getRequest_Customer_Cid() {
@@ -60,12 +60,12 @@ public class RequestLog {
         this.requestDate = requestDate;
     }
 
-    public String getEnterpreneur_Name() {
-        return Enterpreneur_Name;
+    public String getEntrepreneur_Name() {
+        return Entrepreneur_Name;
     }
 
-    public void setEnterpreneur_Name(String enterpreneur_Name) {
-        Enterpreneur_Name = enterpreneur_Name;
+    public void setEntrepreneur_Name(String Entrepreneur_Name) {
+        this.Entrepreneur_Name = Entrepreneur_Name;
     }
     
 }

@@ -26,7 +26,7 @@ import com.example.demo.repositories.TransactionRepository;
 import com.example.demo.repositories.RequestsLogRepository;
 
 @RestController
-public class EnterpreneurController {
+public class EntrepreneurController {
     private final TransactionRepository requestRepository;
     private final EntrepreneurRepository entrepreneurRepository;
     private final RequestsLogRepository repositoryRepository;
@@ -37,7 +37,7 @@ public class EnterpreneurController {
         System.out.println("from request");
     }
 
-    public EnterpreneurController(TransactionRepository transactionRepository,EntrepreneurRepository entrepreneurRepository,RequestsLogRepository repositoryRepository,CustomerRepository customerRepository) {
+    public EntrepreneurController(TransactionRepository transactionRepository,EntrepreneurRepository entrepreneurRepository,RequestsLogRepository repositoryRepository,CustomerRepository customerRepository) {
         this.requestRepository = transactionRepository;
         this.entrepreneurRepository = entrepreneurRepository;
         this.repositoryRepository = repositoryRepository;
@@ -62,15 +62,15 @@ public class EnterpreneurController {
 
     // @PostMapping("/Request")
     // public ResponseEntity<List<Transaction>> Request(@RequestBody RequestLog req){
-    //     Entrepreneur enterp = entrepreneurRepository.findById(req.getEnterpreneurId()).orElseGet(null);
+    //     Entrepreneur entrep = entrepreneurRepository.findById(req.getentrepreneurId()).orElseGet(null);
     //     Customer cust = customerRepository.findById(req.getRequest_Customer_Cid()).orElseGet(null);
 
-    //     System.out.println(enterp);
+    //     System.out.println(entrep);
     //     System.out.println(cust);
-    //     if (enterp!=null && cust!=null){
+    //     if (entrep!=null && cust!=null){
     //         //search trasaction from C_id
     //         ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(req.getRequest_Customer_Cid()),HttpStatus.OK);
-    //         RequestLog requestLog = new RequestLog(req.getEnterpreneurId(), req.getRequest_Customer_Cid());
+    //         RequestLog requestLog = new RequestLog(req.getentrepreneurId(), req.getRequest_Customer_Cid());
     //         repositoryRepository.save(requestLog);
 
     //         //calculation credit from transaction
@@ -84,30 +84,46 @@ public class EnterpreneurController {
 
     //     // test case
     //     // {
-    //     //     "enterpreneurId": "6366aace59f77a088ba81546",
+    //     //     "entrepreneurId": "6366aace59f77a088ba81546",
     //     //     "Request_Customer_Cid": "6362860320fad745b2054961"
     //     // }
             
     // }
 
-    @PostMapping("/RequestCredit")
-    public ResponseEntity<RequestCredit> credit(@RequestBody RequestLog req){
-        Entrepreneur enterpreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEnterpreneur_Email(),req.getEnterpreneur_Name());
+    @PostMapping("/test")
+    public Entrepreneur test(@RequestBody RequestLog req){
+        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEntrepreneur_Email(),req.getEntrepreneur_Name());
         Customer customer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
 
-        System.out.print("ent"+enterpreneur);
+        System.out.print("ent"+entrepreneur);
         System.out.print("cust"+customer);
-        if (!enterpreneur.isEmpty() && !customer.isEmpty()){
+
+        if(!entrepreneur.isEmpty()){
+            return entrepreneur;
+        }
+        else{
+            return null;
+        }
+    }
+
+    @PostMapping("/RequestCredit")
+    public ResponseEntity<RequestCredit> credit(@RequestBody RequestLog req){
+        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEntrepreneur_Email(),req.getEntrepreneur_Name());
+        Customer customer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
+
+        System.out.print("ent"+entrepreneur);
+        System.out.print("cust"+customer);
+        if (!entrepreneur.isEmpty() && !customer.isEmpty()){
             //serach id customer from citizen id
             Customer idCustomer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
             //search trasaction from id
             ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
             //calculation credit from transaction
-            ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEnterprenneur.calculationCredit(searchTransaction),HttpStatus.OK);
+            ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction,entrepreneur.getType()),HttpStatus.OK);
 
             RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
 
-            RequestLog requestLog = new RequestLog(req.getEnterpreneur_Email(),req.getEnterpreneur_Name(), req.getRequest_Customer_Cid());
+            RequestLog requestLog = new RequestLog(req.getEntrepreneur_Email(),req.getEntrepreneur_Name(), req.getRequest_Customer_Cid());
             repositoryRepository.save(requestLog);
 
             //return credit with transaction

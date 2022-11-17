@@ -18,7 +18,7 @@ public class Transaction {
     @Field
     private String customerID;
     @Field
-    private  String Entreprenuer_ID;
+    private  String Entrepreneur_ID;
     @Field
     private Double TransactionInfo;
     @Field
@@ -31,9 +31,9 @@ public class Transaction {
     // public  Transaction(){
     // }
         
-    public Transaction(String customerID, String Entreprenuer_ID,Double TransactionInfo,Date DueDate) {
+    public Transaction(String customerID, String Entrepreneur_ID,Double TransactionInfo,Date DueDate) {
         this.customerID = customerID;
-        this.Entreprenuer_ID = Entreprenuer_ID;
+        this.Entrepreneur_ID = Entrepreneur_ID;
         this.TransactionInfo = TransactionInfo;
         this.Unpaid = TransactionInfo;
         this.TransactionDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()); 
@@ -53,12 +53,12 @@ public class Transaction {
         this.customerID = customerID;
     }
 
-    public String getEntreprenuer_ID() {
-        return this.Entreprenuer_ID;
+    public String getEntrepreneur_ID() {
+        return this.Entrepreneur_ID;
     }
 
-    public void setEntreprenuer_ID(String Entreprenuer_ID) {
-        this.Entreprenuer_ID = Entreprenuer_ID;
+    public void setEntrepreneur_ID(String Entrepreneur_ID) {
+        this.Entrepreneur_ID = Entrepreneur_ID;
     }
 
     public Double getTransactionInfo() {
@@ -98,7 +98,7 @@ public class Transaction {
         return "{" +
             " id='" + getId() + "'" +
             ", customerID='" + getcustomerID() + "'" +
-            ", EntreprenuerName='" + getEntreprenuer_ID() + "'" +
+            ", EntrepreneurName='" + getEntrepreneur_ID() + "'" +
             ", TransactionInfo='" + getTransactionInfo() + "'" +
             ", Unpaid='" + getUnpaid() + "'" +
             ", TransactionDate='" + getTransactionDate() + "'" +

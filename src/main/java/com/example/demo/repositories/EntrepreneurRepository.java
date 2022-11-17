@@ -10,5 +10,4 @@ public interface EntrepreneurRepository extends MongoRepository<Entrepreneur,Str
     Entrepreneur findEntrepreneurByEmailAndOrganizationName(String email,String organizationName);
     Entrepreneur findEntrepreneurByEmail(String email);
     Entrepreneur findEntrepreneurByOrganizationName(String organizationname);
-    Entrepreneur findID(String _id);
 }

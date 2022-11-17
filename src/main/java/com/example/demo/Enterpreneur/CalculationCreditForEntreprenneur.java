@@ -15,13 +15,13 @@ import org.springframework.http.ResponseEntity;
 
 public class CalculationCreditForEntreprenneur {
 
-    private  EntrepreneurRepository entrepreneurRepository ;
+    private EntrepreneurRepository entrepreneurRepository ;
 
     public CalculationCreditForEntreprenneur(EntrepreneurRepository entrepreneurRepository){
         this.entrepreneurRepository = (EntrepreneurRepository) entrepreneurRepository ;
     }
 
-    public Credit calculationCredit(ResponseEntity<List<Transaction>> transaction,String typeEntReq){
+    public static Credit calculationCredit(ResponseEntity<List<Transaction>> transaction,String typeEntReq){
         String customertransaction = transaction.getBody().toString();
 
         List<Transaction> transactionBody = null;
@@ -49,15 +49,15 @@ public class CalculationCreditForEntreprenneur {
                 length.add(days);
                 transactionPeriod+=days;
                 
-                //check entreprenuer Type Matching
-                System.out.println(t.getEntrepreneur_ID());
+                // //check entreprenuer Type Matching
+                // System.out.println(t.getEntrepreneur_ID());
 
-                String temp =t.getEntrepreneur_ID();
-                Entrepreneur t_Ent_ID = entrepreneurRepository.findID(temp);
-                System.out.println(t_Ent_ID);
-                if(typeEntReq == (t_Ent_ID.getType())){
-                    typeMatching += 1;
-                }
+                // String temp =t.getEntrepreneur_ID();
+                // Entrepreneur t_Ent_ID = EntrepreneurRepository.findById(temp);
+                // System.out.println(t_Ent_ID);
+                // if(typeEntReq == (t_Ent_ID.getType())){
+                //     typeMatching += 1;
+                // }
 
             }
             //if clear all trasaction => clearTransaction = 1
@@ -69,7 +69,7 @@ public class CalculationCreditForEntreprenneur {
             //if type macth all transactionn => typeMatch = 1
             typeMatching = (typeMatching / numberOfTransaction) ;
 
-            float credit = (clearTransactionn * 40) + (amountMoney * 30) + ((transactionPeriod/365) * 15 + (typeMatching * 15));
+            float credit = (clearTransactionn * 45) + (amountMoney * 35) + ((transactionPeriod/365) * 20 );
 
             System.out.println(clearTransactionn);
             System.out.println(amountMoney);

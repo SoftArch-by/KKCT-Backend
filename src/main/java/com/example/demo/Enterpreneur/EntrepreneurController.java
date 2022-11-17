@@ -62,7 +62,7 @@ public class EntrepreneurController {
 
     // @PostMapping("/Request")
     // public ResponseEntity<List<Transaction>> Request(@RequestBody RequestLog req){
-    //     Entrepreneur entrep = entrepreneurRepository.findById(req.getentrepreneurId()).orElseGet(null);
+    //     Entrepreneur entrep = entrepreneurRepository.findById(req.getEntrepreneurId()).orElseGet(null);
     //     Customer cust = customerRepository.findById(req.getRequest_Customer_Cid()).orElseGet(null);
 
     //     System.out.println(entrep);
@@ -70,7 +70,7 @@ public class EntrepreneurController {
     //     if (entrep!=null && cust!=null){
     //         //search trasaction from C_id
     //         ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(req.getRequest_Customer_Cid()),HttpStatus.OK);
-    //         RequestLog requestLog = new RequestLog(req.getentrepreneurId(), req.getRequest_Customer_Cid());
+    //         RequestLog requestLog = new RequestLog(req.getEntrepreneurId(), req.getRequest_Customer_Cid());
     //         repositoryRepository.save(requestLog);
 
     //         //calculation credit from transaction
@@ -90,21 +90,6 @@ public class EntrepreneurController {
             
     // }
 
-    @PostMapping("/test")
-    public Entrepreneur test(@RequestBody RequestLog req){
-        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEntrepreneur_Email(),req.getEntrepreneur_Name());
-        Customer customer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
-
-        System.out.print("ent"+entrepreneur);
-        System.out.print("cust"+customer);
-
-        if(!entrepreneur.isEmpty()){
-            return entrepreneur;
-        }
-        else{
-            return null;
-        }
-    }
 
     @PostMapping("/RequestCredit")
     public ResponseEntity<RequestCredit> credit(@RequestBody RequestLog req){
@@ -119,6 +104,12 @@ public class EntrepreneurController {
             //search trasaction from id
             ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
             //calculation credit from transaction
+            // List<Transaction> transactionBody = null;
+            // List<Entrepreneur> entrepreneursList = null;
+            // transactionBody = searchTransaction.getBody();
+            // for(Transaction t:transactionBody){
+            //     Entrepreneur t_Ent_ID = EntrepreneurRepository.findById(t.getEntrepreneur_ID()).orElseGet(null);
+            // }
             ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction,entrepreneur.getType()),HttpStatus.OK);
 
             RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());

@@ -64,7 +64,8 @@ public class Customer {
     public boolean isEmpty() {
         return false;
     }
-    public Customer orElseGet(Object object) {
+    
+    public Customer orElseGetNull() {
         return null;
     }
 }

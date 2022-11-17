@@ -71,9 +71,11 @@ public class Update {
     }
     @PostMapping("/createTransaction")
     public ResponseEntity<Transaction> createTransaction(@RequestBody createTransaction ct){
-        Customer customer = customerRepository.findByCitizenID(ct.getCitizen_id()).orElseGet(null);
+        Customer customer = customerRepository.findByCitizenID(ct.getCitizen_id());
         String customerID = customer.getId();
-        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName()).orElseGet(null);
+        System.out.println(ct.getEmail());
+        System.out.println(ct.getOrganizationName());
+        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName());
         String entrepreneurID = entrepreneur.getId();
         if (customerID == null ||entrepreneurID == null) {return new ResponseEntity<Transaction>(HttpStatus.NOT_FOUND);}
         Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());

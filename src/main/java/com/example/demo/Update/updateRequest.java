@@ -1,7 +1,6 @@
 package com.example.demo.Update;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 public class updateRequest {

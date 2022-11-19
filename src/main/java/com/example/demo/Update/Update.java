@@ -57,6 +57,20 @@ public class Update {
         Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());
         return new ResponseEntity<Transaction>(transactionRepository.save(t),HttpStatus.OK);
     }
+    
+    @PostMapping("/createTransactionEmail")
+    public ResponseEntity<Transaction> createTransactionEmail(@RequestBody createTransactionEmail ct){
+        Customer customer = customerRepository.findByEmail(ct.getC_email());
+        String customerID = customer.getId();
+        System.out.println(ct.getEmail());
+        System.out.println(ct.getOrganizationName());
+        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(ct.getEmail(),ct.getOrganizationName());
+        String entrepreneurID = entrepreneur.getId();
+        if (customerID == null ||entrepreneurID == null) {return new ResponseEntity<Transaction>(HttpStatus.NOT_FOUND);}
+        Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());
+        return new ResponseEntity<Transaction>(transactionRepository.save(t),HttpStatus.OK);
+    }
+
     @GetMapping("/getTransaction/{TransactionId}")
     Transaction findtransection(@PathVariable final String TransactionId){
         return transactionRepository.findById(TransactionId).orElseGet(null);

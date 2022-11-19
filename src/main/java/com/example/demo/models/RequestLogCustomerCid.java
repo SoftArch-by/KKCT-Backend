@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
-public class RequestLog {
+public class RequestLogCustomerCid {
     @Id
     private String id;
     @Field
@@ -21,7 +21,7 @@ public class RequestLog {
     @Field
     private Date requestDate;
 
-    public RequestLog(String Entrepreneur_Email,String Entrepreneur_Name,String Request_Customer_Cid){
+    public RequestLogCustomerCid(String Entrepreneur_Email,String Entrepreneur_Name,String Request_Customer_Cid){
         this.Entrepreneur_Email = Entrepreneur_Email;
         this.Entrepreneur_Name = Entrepreneur_Name;
         this.Request_Customer_Cid = Request_Customer_Cid;
@@ -67,5 +67,4 @@ public class RequestLog {
     public void setEntrepreneur_Name(String Entrepreneur_Name) {
         this.Entrepreneur_Name = Entrepreneur_Name;
     }
-    
 }

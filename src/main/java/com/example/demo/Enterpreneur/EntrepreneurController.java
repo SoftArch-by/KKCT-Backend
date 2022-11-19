@@ -18,7 +18,7 @@ import com.example.demo.models.Credit;
 import com.example.demo.models.Customer;
 import com.example.demo.models.Entrepreneur;
 import com.example.demo.models.RequestCredit;
-import com.example.demo.models.RequestLog;
+import com.example.demo.models.RequestLogCustomerEmail;
 import com.example.demo.models.Transaction;
 import com.example.demo.repositories.CustomerRepository;
 import com.example.demo.repositories.EntrepreneurRepository;
@@ -91,16 +91,16 @@ public class EntrepreneurController {
     // }
 
 
-    @PostMapping("/RequestCredit")
-    public ResponseEntity<RequestCredit> credit(@RequestBody RequestLog req){
+    @PostMapping("/RequestCredit_CustomerEmail")
+    public ResponseEntity<RequestCredit> credit(@RequestBody RequestLogCustomerEmail req){
         Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEntrepreneur_Email(),req.getEntrepreneur_Name());
-        Customer customer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
+        Customer customer = customerRepository.findByEmail(req.getRequest_Customer_Email());
 
         System.out.print("ent"+entrepreneur);
         System.out.print("cust"+customer);
         if (!entrepreneur.isEmpty() && !customer.isEmpty()){
-            //serach id customer from citizen id
-            Customer idCustomer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
+            //serach id customer from email
+            Customer idCustomer = customerRepository.findByEmail(req.getRequest_Customer_Email());
             //search trasaction from id
             ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
             //calculation credit from transaction
@@ -114,7 +114,7 @@ public class EntrepreneurController {
 
             RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
 
-            RequestLog requestLog = new RequestLog(req.getEntrepreneur_Email(),req.getEntrepreneur_Name(), req.getRequest_Customer_Cid());
+            RequestLogCustomerEmail requestLog = new RequestLogCustomerEmail(req.getEntrepreneur_Email(),req.getEntrepreneur_Name(), req.getRequest_Customer_Email());
             repositoryRepository.save(requestLog);
 
             //return credit with transaction
@@ -125,4 +125,31 @@ public class EntrepreneurController {
         }
     }
     
+
+    @PostMapping("/RequestCredit_CustomerCid")
+    public ResponseEntity<RequestCredit> credit(@RequestBody RequestLogCustomerCid req){
+        Entrepreneur entrepreneur = entrepreneurRepository.findEntrepreneurByEmailAndOrganizationName(req.getEntrepreneur_Email(),req.getEntrepreneur_Name());
+        Customer customer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
+
+        System.out.print("ent"+entrepreneur);
+        System.out.print("cust"+customer);
+        if (!entrepreneur.isEmpty() && !customer.isEmpty()){
+            //serach id customer from email
+            Customer idCustomer = customerRepository.findByEmail(req.getRequest_Customer_Cid());
+            //search trasaction from id
+            ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
+            ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction,entrepreneur.getType()),HttpStatus.OK);
+
+            RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
+
+            RequestLogCustomerEmail requestLog = new RequestLogCustomerEmail(req.getEntrepreneur_Email(),req.getEntrepreneur_Name(), req.getRequest_Customer_Cid());
+            repositoryRepository.save(requestLog);
+
+            //return credit with transaction
+            return new ResponseEntity<RequestCredit>(reCredit,HttpStatus.OK);
+        }
+        else{
+               return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

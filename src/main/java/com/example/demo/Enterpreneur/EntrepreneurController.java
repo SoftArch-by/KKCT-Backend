@@ -135,7 +135,7 @@ public class EntrepreneurController {
         System.out.print("cust"+customer);
         if (!entrepreneur.isEmpty() && !customer.isEmpty()){
             //serach id customer from email
-            Customer idCustomer = customerRepository.findByEmail(req.getRequest_Customer_Cid());
+            Customer idCustomer = customerRepository.findByCitizenID(req.getRequest_Customer_Cid());
             //search trasaction from id
             ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
             ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction,entrepreneur.getType()),HttpStatus.OK);

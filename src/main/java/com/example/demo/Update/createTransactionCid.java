@@ -2,20 +2,20 @@ package com.example.demo.Update;
 
 import java.sql.Date;
 
-public class createTransaction {
+public class createTransactionCid {
     private String citizen_id;
     private String email;
     private String OrganizationName ;
     private Double Money;
     private Date DueDate;
-    createTransaction (
+    createTransactionCid (
         String citizen_id,
         String email,
         String OrganizationName ,
         Double Money,
         Date DueDate)
      {
-        this.citizen_id =citizen_id;
+        this.citizen_id = citizen_id;
         this.email = email;
         this.OrganizationName = OrganizationName;
         this.Money = Money;

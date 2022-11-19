@@ -36,17 +36,18 @@ public class Update {
     public static void update(){
         System.out.println("from update");
     }
-    @PostMapping("/getTransaction")
-    public String getTransaction(Id T_id){
-		String t = "";
-        for (Transaction transaction : transactionRepository.findAll()){
-			t+=transaction;
-            System.out.println(transaction);
-		}
-        return t;
-    }
-    @PostMapping("/createTransaction")
-    public ResponseEntity<Transaction> createTransaction(@RequestBody createTransaction ct){
+    // @PostMapping("/getTransaction")
+    // public String getTransaction(Id T_id){
+	// 	String t = "";
+    //     for (Transaction transaction : transactionRepository.findAll()){
+	// 		t+=transaction;
+    //         System.out.println(transaction);
+	// 	}
+    //     return t;
+    // }
+
+    @PostMapping("/createTransaction_CustomerCid")
+    public ResponseEntity<Transaction> createTransaction(@RequestBody createTransactionCid ct){
         Customer customer = customerRepository.findByCitizenID(ct.getCitizen_id());
         String customerID = customer.getId();
         System.out.println(ct.getEmail());
@@ -57,8 +58,8 @@ public class Update {
         Transaction t = new Transaction(customerID, entrepreneurID, ct.getMoney(), ct.getDueDate());
         return new ResponseEntity<Transaction>(transactionRepository.save(t),HttpStatus.OK);
     }
-    
-    @PostMapping("/createTransactionEmail")
+
+    @PostMapping("/createTransaction_CustomerEmail")
     public ResponseEntity<Transaction> createTransactionEmail(@RequestBody createTransactionEmail ct){
         Customer customer = customerRepository.findByEmail(ct.getC_email());
         String customerID = customer.getId();
@@ -71,10 +72,11 @@ public class Update {
         return new ResponseEntity<Transaction>(transactionRepository.save(t),HttpStatus.OK);
     }
 
-    @GetMapping("/getTransaction/{TransactionId}")
-    Transaction findtransection(@PathVariable final String TransactionId){
-        return transactionRepository.findById(TransactionId).orElseGet(null);
-    }
+    // @GetMapping("/getTransaction/{TransactionId}")
+    // Transaction findtransection(@PathVariable final String TransactionId){
+    //     return transactionRepository.findById(TransactionId).orElseGet(null);
+    // }
+
     @PostMapping("/update")
     public ResponseEntity<Transaction> updateTransaction(@RequestBody updateRequest req){
         Transaction transaction = transactionRepository.findById(req.getID()).get();

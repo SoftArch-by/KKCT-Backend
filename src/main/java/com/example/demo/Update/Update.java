@@ -47,7 +47,7 @@ public class Update {
     // }
 
     @PostMapping("/createTransaction_CustomerCid")
-    public ResponseEntity<Transaction> createTransaction(@RequestBody createTransactionCid ct){
+    public ResponseEntity<Transaction> createTransactionCid(@RequestBody createTransactionCid ct){
         Customer customer = customerRepository.findByCitizenID(ct.getCitizen_id());
         String customerID = customer.getId();
         System.out.println(ct.getEmail());

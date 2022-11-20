@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.models.*;
+import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +60,20 @@ public class EntrepreneurController {
         return new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(CustomerID),HttpStatus.OK);
     }
 
+    @GetMapping("/getTransaction")
+    public ResponseEntity<JsonObject> FindTransactionByCId(@RequestParam String email){
+        String object_id = customerRepository.findByEmail(email).getId();
+        List<Transaction> res = requestRepository.findByCustomerID(object_id);
+        String res_string="";
+        for (Transaction t:res) {
+            System.out.println(t);
+            res_string += t.toString();
+        }
+
+        JsonObject o = new JsonObject(res_string);
+
+        return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
+    }
 
     // @PostMapping("/Request")
     // public ResponseEntity<List<Transaction>> Request(@RequestBody RequestLog req){

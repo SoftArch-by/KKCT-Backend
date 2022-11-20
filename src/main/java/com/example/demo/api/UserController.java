@@ -93,7 +93,8 @@ public class UserController {
     }
 
     @GetMapping("/getTransaction")
-    public ResponseEntity<List<Transaction>> FindTransactionByCId(@RequestParam String CustomerID){
+    public ResponseEntity<List<Transaction>> FindTransactionByCId(@RequestParam String email){
+        String CustomerID = userService.getUser(email).getCitizenID();
         return new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(CustomerID), HttpStatus.OK);
     }
 

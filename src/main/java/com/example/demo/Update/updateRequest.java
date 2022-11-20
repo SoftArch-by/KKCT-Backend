@@ -16,17 +16,8 @@ public class updateRequest {
         return this.ID;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
     public Double getPaid() {
         return this.paid;
     }
-
-    public void setPaid(Double paid) {
-        this.paid = paid;
-    }
-
 
 }

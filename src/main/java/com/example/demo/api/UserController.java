@@ -9,8 +9,11 @@ import com.example.demo.models.Transaction;
 import com.example.demo.repositories.TransactionRepository;
 import com.example.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import org.bson.json.JsonObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -93,9 +96,18 @@ public class UserController {
     }
 
     @GetMapping("/getTransaction")
-    public ResponseEntity<List<Transaction>> FindTransactionByCId(@RequestParam String email){
+    public ResponseEntity<JsonObject> FindTransactionByCId(@RequestParam String email){
         String object_id = userService.getUser(email).getId();
-        return new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(object_id), HttpStatus.OK);
+        List<Transaction> res = requestRepository.findByCustomerID(object_id);
+        String res_string="";
+        for (Transaction t:res) {
+            System.out.println(t);
+            res_string += t.toString();
+        }
+
+        JsonObject o = new JsonObject(res_string);
+
+        return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
     }
 
 }

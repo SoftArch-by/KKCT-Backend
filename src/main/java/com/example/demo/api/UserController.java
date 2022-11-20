@@ -5,10 +5,13 @@ import com.example.demo.jwt.JWTHelper;
 import com.example.demo.models.Customer;
 import com.example.demo.models.Role;
 import com.example.demo.models.SignupForm;
+import com.example.demo.models.Transaction;
+import com.example.demo.repositories.TransactionRepository;
 import com.example.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,6 +32,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final TransactionRepository requestRepository;
 
     @GetMapping("/users")
     public ResponseEntity<List<Customer>> getUsers() {
@@ -87,6 +91,12 @@ public class UserController {
             throw new RuntimeException("Refresh token is missing");
         }
     }
+
+    @GetMapping("/getTransaction")
+    public ResponseEntity<List<Transaction>> FindTransactionByCId(@RequestParam String CustomerID){
+        return new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(CustomerID), HttpStatus.OK);
+    }
+
 }
 
 @Data

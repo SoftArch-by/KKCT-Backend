@@ -44,6 +44,7 @@ public class EntrepreneurController {
         this.repositoryRepository = repositoryRepository;
         this.customerRepository = customerRepository;
     }
+
     @PostMapping("/Register")
     public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
         System.out.println(form.getType());
@@ -61,13 +62,15 @@ public class EntrepreneurController {
     }
 
     @GetMapping("/getTransaction")
-    public ResponseEntity<JsonObject> FindTransactionByCId(@RequestParam String email){
+    public ResponseEntity<JsonObject> FindTransactionByEmail(@RequestParam String email){
         String object_id = customerRepository.findByEmail(email).getId();
         List<Transaction> res = requestRepository.findByCustomerID(object_id);
         String res_string="";
         for (Transaction t:res) {
             System.out.println(t);
-            res_string += t.toString();
+            Entrepreneur findEnt  = entrepreneurRepository.findById(t.getEntrepreneur_ID()).orElseGet(null);
+            TransactionToReturn reformat = new TransactionToReturn(t.getId(),t.getcustomerID(), findEnt.getOrganizationName() ,t.getTransactionInfo(), t.getDueDate());
+            res_string += reformat.toString();
         }
 
         JsonObject o = new JsonObject(res_string);

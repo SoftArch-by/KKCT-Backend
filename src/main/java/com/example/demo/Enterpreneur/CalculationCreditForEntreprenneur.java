@@ -21,7 +21,7 @@ public class CalculationCreditForEntreprenneur {
         this.entrepreneurRepository = (EntrepreneurRepository) entrepreneurRepository ;
     }
 
-    public static Credit calculationCredit(ResponseEntity<List<Transaction>> transaction,String typeEntReq){
+    public static Credit calculationCredit(ResponseEntity<List<Transaction>> transaction){
         String customertransaction = transaction.getBody().toString();
 
         List<Transaction> transactionBody = null;

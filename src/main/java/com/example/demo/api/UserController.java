@@ -3,9 +3,12 @@ package com.example.demo.api;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.jwt.JWTHelper;
 import com.example.demo.models.Customer;
+import com.example.demo.models.Entrepreneur;
+import com.example.demo.models.EntrepreneurSignupForm;
 import com.example.demo.models.Role;
 import com.example.demo.models.SignupForm;
 import com.example.demo.models.Transaction;
+import com.example.demo.repositories.EntrepreneurRepository;
 import com.example.demo.repositories.TransactionRepository;
 import com.example.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +39,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
     private final UserService userService;
     private final TransactionRepository requestRepository;
+    private final EntrepreneurRepository entrepreneurRepository;
 
     @GetMapping("/users")
     public ResponseEntity<List<Customer>> getUsers() {
@@ -110,6 +114,17 @@ public class UserController {
         return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
 
 
+    }
+    
+    @PostMapping("/Register")
+    public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
+        System.out.println(form.getType());
+        Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
+        if(entrepreneurRepository.findEntrepreneurByEmail(e.getEmail()).isEmpty()){
+            entrepreneurRepository.save(e);
+            return  ResponseEntity.ok("Sign up success");
+        }
+        return  ResponseEntity.ok("already have account");
     }
 
 }

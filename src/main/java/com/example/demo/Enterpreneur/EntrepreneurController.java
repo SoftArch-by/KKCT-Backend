@@ -46,16 +46,16 @@ public class EntrepreneurController {
     }
 
 
-    @PostMapping("/Register")
-    public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
-        System.out.println(form.getType());
-        Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
-        if(entrepreneurRepository.findEntrepreneurByEmail(e.getEmail()).isEmpty()){
-            entrepreneurRepository.save(e);
-            return  ResponseEntity.ok("Sign up success");
-        }
-        return  ResponseEntity.ok("already have account");
-    }
+    // @PostMapping("/Register")
+    // public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
+    //     System.out.println(form.getType());
+    //     Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
+    //     if(entrepreneurRepository.findEntrepreneurByEmail(e.getEmail()).isEmpty()){
+    //         entrepreneurRepository.save(e);
+    //         return  ResponseEntity.ok("Sign up success");
+    //     }
+    //     return  ResponseEntity.ok("already have account");
+    // }
 
     // @GetMapping("/getRequest/CustomerID")
     // public ResponseEntity<List<Transaction>> FindTransectionByCId(@RequestParam String CustomerID){
@@ -79,28 +79,28 @@ public class EntrepreneurController {
     //     return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
     // }
     
-    @PostMapping("/RequestCredit_fromCustomer")
-    public ResponseEntity<RequestCredit> reqFromCustomer(@RequestParam String email){
-        Customer customer = customerRepository.findByEmail(email);
+    // @PostMapping("/RequestCredit_fromCustomer")
+    // public ResponseEntity<RequestCredit> reqFromCustomer(@RequestParam String email){
+    //     Customer customer = customerRepository.findByEmail(email);
 
-        System.out.print("cust"+customer);
-        if (!customer.isEmpty()){
-            //serach id customer from email
-            Customer idCustomer = customerRepository.findByEmail(email);
-            //search trasaction from id
-            ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
+    //     System.out.print("cust"+customer);
+    //     if (!customer.isEmpty()){
+    //         //serach id customer from email
+    //         Customer idCustomer = customerRepository.findByEmail(email);
+    //         //search trasaction from id
+    //         ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
 
-            ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction),HttpStatus.OK);
+    //         ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction),HttpStatus.OK);
 
-            RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
+    //         RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
 
-            //return credit with transaction
-            return new ResponseEntity<RequestCredit>(reCredit,HttpStatus.OK);
-        }
-        else{
-               return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
-        }
-    }
+    //         //return credit with transaction
+    //         return new ResponseEntity<RequestCredit>(reCredit,HttpStatus.OK);
+    //     }
+    //     else{
+    //            return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
+    //     }
+    // }
 
 
     @PostMapping("/RequestCredit_CustomerEmail")
@@ -165,8 +165,8 @@ public class EntrepreneurController {
         }
     }
 
-    @GetMapping("/getCustomer")
-    public ResponseEntity<Customer> getCustomer(@RequestParam String email){
-        return new ResponseEntity<Customer>(customerRepository.findByEmail(email),HttpStatus.OK);
-    }
+    // @GetMapping("/getCustomer")
+    // public ResponseEntity<Customer> getCustomer(@RequestParam String email){
+    //     return new ResponseEntity<Customer>(customerRepository.findByEmail(email),HttpStatus.OK);
+    // }
 }

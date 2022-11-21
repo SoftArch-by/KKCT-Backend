@@ -61,12 +61,21 @@ public class EntrepreneurController {
     }
 
     @GetMapping("/getTransaction")
-    public ResponseEntity<List<Transaction>>FindTransactionByCId(@RequestParam String email){
+    public ResponseEntity<JsonObject> FindTransactionByCId(@RequestParam String email){
         String object_id = customerRepository.findByEmail(email).getId();
-        return new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(object_id),HttpStatus.OK);
+        List<Transaction> res = requestRepository.findByCustomerID(object_id);
+        String res_string="";
+        for (Transaction t:res) {
+            System.out.println(t);
+            res_string += t.toString();
+        }
+
+        JsonObject o = new JsonObject(res_string);
+
+        return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
     }
     @PostMapping("/RequestCredit_fromCustomer")
-    public ResponseEntity<RequestCredit> reqFromCustomer(@RequestParam String email){
+    public ResponseEntity<Credit> reqFromCustomer(@RequestParam String email){
         Customer customer = customerRepository.findByEmail(email);
 
         System.out.print("cust"+customer);
@@ -75,22 +84,16 @@ public class EntrepreneurController {
             Customer idCustomer = customerRepository.findByEmail(email);
             //search trasaction from id
             ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(idCustomer.getId()),HttpStatus.OK);
-            //calculation credit from transaction
-            // List<Transaction> transactionBody = null;
-            // List<Entrepreneur> entrepreneursList = null;
-            // transactionBody = searchTransaction.getBody();
-            // for(Transaction t:transactionBody){
-            //     Entrepreneur t_Ent_ID = EntrepreneurRepository.findById(t.getEntrepreneur_ID()).orElseGet(null);
-            // }
+
             ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction),HttpStatus.OK);
 
-            RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
+            // RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
 
             //return credit with transaction
-            return new ResponseEntity<RequestCredit>(reCredit,HttpStatus.OK);
+            return credit;
         }
         else{
-               return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
+               return new ResponseEntity<Credit>(HttpStatus.BAD_REQUEST);
         }
     }
 

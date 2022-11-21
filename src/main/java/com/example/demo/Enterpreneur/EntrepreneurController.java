@@ -165,8 +165,8 @@ public class EntrepreneurController {
         }
     }
 
-    @GetMapping("/getCustomer")
-    public ResponseEntity<Customer> getCustomer(@RequestParam String email){
-        return new ResponseEntity<Customer>(customerRepository.findByEmail(email),HttpStatus.OK);
-    }
+    // @GetMapping("/getCustomer")
+    // public ResponseEntity<Customer> getCustomer(@RequestParam String email){
+    //     return new ResponseEntity<Customer>(customerRepository.findByEmail(email),HttpStatus.OK);
+    // }
 }

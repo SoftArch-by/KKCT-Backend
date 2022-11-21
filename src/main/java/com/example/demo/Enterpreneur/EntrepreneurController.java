@@ -79,7 +79,7 @@ public class EntrepreneurController {
         return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
     }
     @PostMapping("/RequestCredit_fromCustomer")
-    public ResponseEntity<Credit> reqFromCustomer(@RequestParam String email){
+    public ResponseEntity<RequestCredit> reqFromCustomer(@RequestParam String email){
         Customer customer = customerRepository.findByEmail(email);
 
         System.out.print("cust"+customer);
@@ -91,13 +91,13 @@ public class EntrepreneurController {
 
             ResponseEntity<Credit> credit = new ResponseEntity<Credit>(CalculationCreditForEntreprenneur.calculationCredit(searchTransaction),HttpStatus.OK);
 
-            // RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
+            RequestCredit reCredit = new RequestCredit(credit.getBody(),searchTransaction.getBody());
 
             //return credit with transaction
-            return credit;
+            return new ResponseEntity<RequestCredit>(reCredit,HttpStatus.OK);
         }
         else{
-               return new ResponseEntity<Credit>(HttpStatus.BAD_REQUEST);
+               return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -132,7 +132,7 @@ public class EntrepreneurController {
             return new ResponseEntity<RequestCredit>(reCredit,HttpStatus.OK);
         }
         else{
-               return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
         }
     }
     

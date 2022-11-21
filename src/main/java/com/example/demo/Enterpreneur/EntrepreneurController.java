@@ -61,18 +61,9 @@ public class EntrepreneurController {
     }
 
     @GetMapping("/getTransaction")
-    public ResponseEntity<JsonObject> FindTransactionByCId(@RequestParam String email){
+    public ResponseEntity<List<Transaction>>FindTransactionByCId(@RequestParam String email){
         String object_id = customerRepository.findByEmail(email).getId();
-        List<Transaction> res = requestRepository.findByCustomerID(object_id);
-        String res_string="";
-        for (Transaction t:res) {
-            System.out.println(t);
-            res_string += t.toString();
-        }
-
-        JsonObject o = new JsonObject(res_string);
-
-        return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
+        return new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(object_id),HttpStatus.OK);
     }
     @PostMapping("/RequestCredit_fromCustomer")
     public ResponseEntity<RequestCredit> reqFromCustomer(@RequestParam String email){

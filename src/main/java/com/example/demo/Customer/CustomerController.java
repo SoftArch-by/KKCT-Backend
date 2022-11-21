@@ -41,4 +41,9 @@ public class CustomerController {
 
         return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
     }
+    
+    @GetMapping("/getCustomer")
+    public ResponseEntity<Customer> getCustomer(@RequestParam String email){
+        return new ResponseEntity<Customer>(customerRepository.findByEmail(email),HttpStatus.OK);
+    }
 }

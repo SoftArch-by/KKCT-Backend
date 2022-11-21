@@ -15,14 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 public class CalculationCreditForEntreprenneur {
 
-    private EntrepreneurRepository entrepreneurRepository ;
-
-    public CalculationCreditForEntreprenneur(EntrepreneurRepository entrepreneurRepository){
-        this.entrepreneurRepository = (EntrepreneurRepository) entrepreneurRepository ;
-    }
-
     public static Credit calculationCredit(ResponseEntity<List<Transaction>> transaction){
-        String customertransaction = transaction.getBody().toString();
 
         List<Transaction> transactionBody = null;
         transactionBody = transaction.getBody();

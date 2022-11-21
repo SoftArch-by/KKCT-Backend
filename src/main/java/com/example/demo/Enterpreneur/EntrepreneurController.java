@@ -46,16 +46,16 @@ public class EntrepreneurController {
     }
 
 
-    @PostMapping("/Register")
-    public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
-        System.out.println(form.getType());
-        Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
-        if(entrepreneurRepository.findEntrepreneurByEmail(e.getEmail()).isEmpty()){
-            entrepreneurRepository.save(e);
-            return  ResponseEntity.ok("Sign up success");
-        }
-        return  ResponseEntity.ok("already have account");
-    }
+    // @PostMapping("/Register")
+    // public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
+    //     System.out.println(form.getType());
+    //     Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
+    //     if(entrepreneurRepository.findEntrepreneurByEmail(e.getEmail()).isEmpty()){
+    //         entrepreneurRepository.save(e);
+    //         return  ResponseEntity.ok("Sign up success");
+    //     }
+    //     return  ResponseEntity.ok("already have account");
+    // }
 
     // @GetMapping("/getRequest/CustomerID")
     // public ResponseEntity<List<Transaction>> FindTransectionByCId(@RequestParam String CustomerID){

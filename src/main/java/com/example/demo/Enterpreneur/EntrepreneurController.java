@@ -45,6 +45,7 @@ public class EntrepreneurController {
         this.customerRepository = customerRepository;
     }
 
+
     @PostMapping("/Register")
     public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
         System.out.println(form.getType());
@@ -99,36 +100,6 @@ public class EntrepreneurController {
                return new ResponseEntity<Credit>(HttpStatus.BAD_REQUEST);
         }
     }
-
-    // @PostMapping("/Request")
-    // public ResponseEntity<List<Transaction>> Request(@RequestBody RequestLog req){
-    //     Entrepreneur entrep = entrepreneurRepository.findById(req.getEntrepreneurId()).orElseGet(null);
-    //     Customer cust = customerRepository.findById(req.getRequest_Customer_Cid()).orElseGet(null);
-
-    //     System.out.println(entrep);
-    //     System.out.println(cust);
-    //     if (entrep!=null && cust!=null){
-    //         //search trasaction from C_id
-    //         ResponseEntity<List<Transaction>> searchTransaction = new ResponseEntity<List<Transaction>>(requestRepository.findByCustomerID(req.getRequest_Customer_Cid()),HttpStatus.OK);
-    //         RequestLog requestLog = new RequestLog(req.getEntrepreneurId(), req.getRequest_Customer_Cid());
-    //         repositoryRepository.save(requestLog);
-
-    //         //calculation credit from transaction
-
-    //         //return transaction with credit grade
-    //         return searchTransaction;
-    //     }
-    //     else{
-    //            return null;
-    //     }
-
-    //     // test case
-    //     // {
-    //     //     "entrepreneurId": "6366aace59f77a088ba81546",
-    //     //     "Request_Customer_Cid": "6362860320fad745b2054961"
-    //     // }
-            
-    // }
 
 
     @PostMapping("/RequestCredit_CustomerEmail")
@@ -191,5 +162,10 @@ public class EntrepreneurController {
         else{
                return new ResponseEntity<RequestCredit>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/getCustomer")
+    public ResponseEntity<Customer> getCustomer(@RequestParam String email){
+        return new ResponseEntity<Customer>(customerRepository.findByEmail(email),HttpStatus.OK);
     }
 }

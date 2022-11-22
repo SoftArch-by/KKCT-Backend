@@ -2,13 +2,22 @@ package com.example.demo.api;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.jwt.JWTHelper;
+import com.example.demo.models.Customer;
+import com.example.demo.models.Entrepreneur;
+import com.example.demo.models.EntrepreneurSignupForm;
 import com.example.demo.models.Role;
 import com.example.demo.models.SignupForm;
-import com.example.demo.models.User;
+import com.example.demo.models.Transaction;
+import com.example.demo.repositories.EntrepreneurRepository;
+import com.example.demo.repositories.TransactionRepository;
 import com.example.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import org.bson.json.JsonObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,16 +38,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final TransactionRepository requestRepository;
+    private final EntrepreneurRepository entrepreneurRepository;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<Customer>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.addUser(user));
+    public ResponseEntity<Customer> saveUser(@RequestBody Customer customer) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/customer/save").toUriString());
+        return ResponseEntity.created(uri).body(userService.saveUser(customer));
     }
 
     @PostMapping("/role/save")
@@ -49,14 +60,14 @@ public class UserController {
 
     @PostMapping("/role/addtouser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserFrom form) {
-        userService.addRoleToUser(form.getUsername(), form.getRoleName());
+        userService.addRoleToUser(form.getEmail(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignupForm signupForm) {
-        userService.addUser(new User(null, signupForm.getName(), signupForm.getUsername(), signupForm.getPassword(), new ArrayList<>()));
-        return ResponseEntity.ok().build();
+        userService.saveUser(new Customer(null, signupForm.getEmail(), signupForm.getPassword(), signupForm.getCitizenID(), new ArrayList<>()));
+        return ResponseEntity.ok("signup success");
     }
 
     @GetMapping("/token/refresh")
@@ -66,9 +77,9 @@ public class UserController {
             try {
                 String refresh_token = authHeader.replace("Bearer ", "");
                 DecodedJWT validRefreshToken = JWTHelper.validateToken(refresh_token);
-                String username = validRefreshToken.getSubject();
-                User user = userService.getUser(username);
-                String access_token = JWTHelper.generateNewAccessToken(user);
+                String email = validRefreshToken.getSubject();
+                Customer customer = userService.getUser(email);
+                String access_token = JWTHelper.generateNewAccessToken(customer);
 
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
@@ -87,10 +98,39 @@ public class UserController {
             throw new RuntimeException("Refresh token is missing");
         }
     }
+
+    @GetMapping("/getTransaction")
+    public ResponseEntity<JsonObject> FindTransactionByCId(@RequestParam String email){
+        String object_id = userService.getUser(email).getId();
+        List<Transaction> res = requestRepository.findByCustomerID(object_id);
+        String res_string="";
+        for (Transaction t:res) {
+            System.out.println(t);
+            res_string += t.toString();
+        }
+
+        JsonObject o = new JsonObject(res_string);
+
+        return new ResponseEntity<JsonObject>(o, HttpStatus.OK);
+
+
+    }
+    
+    @PostMapping("/Register")
+    public ResponseEntity<String> EntreprenuerSignup(@RequestBody EntrepreneurSignupForm form ){
+        System.out.println(form.getType());
+        Entrepreneur e = new Entrepreneur(null,form.getEmail(), form.getOrganizationName(),form.getType());
+        if(entrepreneurRepository.findEntrepreneurByEmail(e.getEmail()).isEmpty()){
+            entrepreneurRepository.save(e);
+            return  ResponseEntity.ok("Sign up success");
+        }
+        return  ResponseEntity.ok("already have account");
+    }
+
 }
 
 @Data
 class RoleToUserFrom {
-    private String username;
+    private String email;
     private String roleName;
 }

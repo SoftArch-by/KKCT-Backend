@@ -1,9 +1,9 @@
 package com.example.demo.services;
 
+import com.example.demo.models.Customer;
 import com.example.demo.models.Role;
-import com.example.demo.models.User;
 import com.example.demo.repositories.RoleRepository;
-import com.example.demo.repositories.UserRepository;
+import com.example.demo.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,31 +20,31 @@ import java.util.List;
 
 @Service @RequiredArgsConstructor @Transactional @Log4j2
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            log.error("User not found in the database");
-            throw new UsernameNotFoundException("User not found in the database");
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Customer customer = customerRepository.findByEmail(email);
+        if (customer == null) {
+            log.error("Customer not found in the database");
+            throw new UsernameNotFoundException("Customer not found in the database");
         } else {
-            log.info("User {} found in the database", username);
+            log.info("Customer {} found in the database", email);
         }
         Collection<SimpleGrantedAuthority> aurhoities = new ArrayList<>();
-        user.getRoles().forEach(role ->
+        customer.getRoles().forEach(role ->
                 aurhoities.add(new SimpleGrantedAuthority(role.getName())));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), aurhoities);
+        return new org.springframework.security.core.userdetails.User(customer.getEmail(), customer.getPassword(), aurhoities);
     }
 
     @Override
-    public User addUser(User user) {
-        log.info("Saving new user {} to the database", user.getName());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.getRoles().add(new Role(null, "USER"));
-        return userRepository.save(user);
+    public Customer saveUser(Customer customer) {
+        log.info("Saving new customer {} to the database", customer.getEmail());
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.getRoles().add(new Role(null, "USER"));
+        return customerRepository.save(customer);
     }
 
     @Override
@@ -54,23 +54,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void addRoleToUser(String username, String roleName) {
-        log.info("Adding role {} to user {}", roleName, username);
-        User user = userRepository.findByUsername(username);
+    public void addRoleToUser(String email, String roleName) {
+        log.info("Adding role {} to customer {}", roleName, email);
+        Customer customer = customerRepository.findByEmail(email);
         Role role = roleRepository.findByName(roleName);
-        user.getRoles().add(role);
+        customer.getRoles().add(role);
     }
 
     @Override
-    public User getUser(String username) {
+    public Customer getUser(String email) {
         log.info("Fethcing user");
-        return userRepository.findByUsername(username);
+        return customerRepository.findByEmail(email);
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<Customer> getUsers() {
         log.info("Fethcing all users");
-        log.info(userRepository.findAll());
-        return userRepository.findAll();
+        log.info(customerRepository.findAll());
+        return customerRepository.findAll();
     }
+
+
+
 }
